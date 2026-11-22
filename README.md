@@ -1,6 +1,6 @@
 # DocTools
 
-Offline web app with three tools: **Convert** (Word <-> PDF), **Photos** (continuous scanner, passport photo, editor, crop) and **Edit metadata**. Everything runs on the device. Install on iPhone from Safari: **Share -> Add to Home Screen**.
+Offline web app: **Convert** (Word <-> PDF), **Photos** (auto-detecting scanner, passport photo, editor, crop), **Edit metadata** and **Compress** (shrink a photo or PDF to a target size). Everything runs on the device. Install on iPhone from Safari: **Share -> Add to Home Screen**.
 
 ## Put it on GitHub Pages
 1. On github.com click **New repository**, name it `doctools`, set **Public**, create it.
@@ -10,5 +10,3 @@ Offline web app with three tools: **Convert** (Word <-> PDF), **Photos** (contin
 
 ## Install on iPhone
 Open that address in **Safari**, tap **Share -> Add to Home Screen -> Add**. While on Wi-Fi, open Photos -> Passport once so the AI model (~55 MB) downloads. After that it all works offline.
-
-Saving: tap Download, then **Save Image** / **Save to Files**, or **Save to Files** for the PDF and ZIP.

@@ -137,6 +137,10 @@ input[type=color]{width:32px;height:32px;border:2px solid var(--line);border-rad
 .mt-k{color:var(--muted);flex:none;max-width:45%}
 .mt-v{text-align:right;word-break:break-word;font-weight:500}
 @media (max-width:640px){.mt-v{text-align:left}}
+.cp-box{margin-top:4px}
+.cp-sizes{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.cp-sizes b{color:var(--ink)}
+#cp-after{color:var(--ok);font-weight:600}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;max-width:90vw}
 .toast.show{opacity:1}
 .note{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink);margin-top:14px}
@@ -210,7 +214,8 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
         </div>
         <div>
           <h3>Rotate</h3>
-          <div class="row" style="margin:0"><button class="btn sm" id="scan-rotl">⟲ Left</button><button class="btn sm" id="scan-rotr">⟳ Right</button><button class="btn sm" id="scan-reset">Reset corners</button></div>
+          <div class="row" style="margin:0"><button class="btn sm" id="scan-rotl">⟲ Left</button><button class="btn sm" id="scan-rotr">⟳ Right</button></div>
+          <div class="row" style="margin:8px 0 0"><button class="btn primary sm" id="scan-auto">⌁ Auto-detect edges</button><button class="btn sm" id="scan-reset">Reset corners</button></div>
         </div>
         <div>
           <h3>Pages <span id="scan-count" style="text-transform:none;color:var(--accent)"></span></h3>
@@ -419,6 +424,33 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
     <div class="status" id="mt-status"></div>
   </section>
 
+  <!-- COMPRESS -->
+  <section class="panel" id="p-compress">
+    <h2>Compress</h2>
+    <p class="sub">Shrink a photo or PDF to a size you choose &mdash; handy for upload limits and email. It aims for the largest quality that still fits under your target.</p>
+    <label class="drop" data-drop="cp"><input type="file" accept="image/jpeg,image/png,image/webp,application/pdf,.jpg,.jpeg,.png,.webp,.pdf" id="cp-file"><strong>Choose a photo or PDF</strong><span>JPG, PNG, WebP or PDF</span></label>
+    <div id="cp-chip" class="file-chip hidden"></div>
+    <div class="cp-box hidden" id="cp-box">
+      <div class="cp-sizes"><span>Original: <b id="cp-orig">—</b></span><span id="cp-after"></span></div>
+      <div>
+        <h3 style="margin:14px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Target size</h3>
+        <div class="chips" id="cp-presets"><button data-kb="100">100 KB</button><button data-kb="250">250 KB</button><button data-kb="500" class="on">500 KB</button><button data-kb="1024">1 MB</button><button data-kb="2048">2 MB</button><button data-kb="5120">5 MB</button></div>
+        <div class="row" style="margin:10px 0 0">
+          <span class="hint">or exactly</span>
+          <input type="number" id="cp-num" min="10" step="10" value="500" style="width:90px;border:1px solid var(--line);border-radius:9px;padding:8px;font:inherit;background:var(--card);color:var(--ink)">
+          <div class="seg" id="cp-unit"><button data-v="kb" class="on">KB</button><button data-v="mb">MB</button></div>
+        </div>
+      </div>
+      <div id="cp-dim-box">
+        <h3 style="margin:14px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Max dimension (photos)</h3>
+        <div class="seg" id="cp-dim" style="flex-wrap:wrap"><button data-v="0" class="on">Keep</button><button data-v="3000">3000px</button><button data-v="2000">2000px</button><button data-v="1500">1500px</button><button data-v="1000">1000px</button></div>
+      </div>
+      <div class="row" style="margin:16px 0 0"><button class="btn primary" id="cp-go">Compress &amp; download</button></div>
+      <p class="hint" id="cp-hint" style="margin:8px 0 0"></p>
+    </div>
+    <div class="status" id="cp-status"></div>
+  </section>
+
   <footer>Everything runs on your device. Nothing is uploaded, and it works offline.</footer>
 </div>
 <div class="toast" id="toast"></div>
@@ -489,7 +521,8 @@ function loadImageFile(file,max=2400){
 const GROUPS=[
  {g:'convert',label:'Convert',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h12M13 4l3 3-3 3M20 17H8M11 14l-3 3 3 3"/></svg>',tabs:[['word-to-pdf','Word \u2192 PDF'],['pdf-to-word','PDF \u2192 Word']]},
  {g:'photos',label:'Photos',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.6"/><path d="m21 15-4.5-4.5L5 21"/></svg>',tabs:[['scan','Scan'],['background','Passport'],['edit','Editor'],['crop','Crop']]},
- {g:'metadata',label:'Edit metadata',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/><path d="M16 4h5m0 0v5m0-5-6 6"/></svg>',tabs:[['metadata','Edit metadata']]}
+ {g:'metadata',label:'Edit metadata',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/><path d="M16 4h5m0 0v5m0-5-6 6"/></svg>',tabs:[['metadata','Edit metadata']]},
+ {g:'compress',label:'Compress',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4M21 9V5a2 2 0 0 0-2-2h-4M3 15v4a2 2 0 0 0 2 2h4M15 21h4a2 2 0 0 0 2-2v-4M8 12h8"/></svg>',tabs:[['compress','Compress']]}
 ];
 const LEAVES=[].concat(...GROUPS.map(g=>g.tabs.map(t=>t[0])));
 function groupOf(leaf){return GROUPS.find(g=>g.tabs.some(t=>t[0]===leaf))||GROUPS[0]}
@@ -623,18 +656,61 @@ $('#p2w-go').addEventListener('click',async()=>{
 const scan={src:null,corners:null,step:'corners',filter:'doc',pages:[],result:null,drag:-1};
 const sc=$('#scan-canvas'),sx=sc.getContext('2d');
 async function scanLoad(f){
-  try{status('scan','Loading photo…');scan.src=await loadImageFile(f,2400);scanResetCorners();scan.step='corners';
+  try{status('scan','Loading photo…');scan.src=await loadImageFile(f,2400);scanResetCorners();scanAutoDetect(true);scan.step='corners';
     $$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));
     $('#scan-editor').classList.remove('hidden');$('[data-drop=scan]').classList.add('hidden');status('scan','');scanDraw();}
   catch(err){status('scan',err.message,'err')}
 }
 $('#scan-file').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
 $('#scan-file2').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
+function scanDetectCorners(src){
+  const maxW=480,s=Math.min(1,maxW/src.width),w=Math.round(src.width*s),h=Math.round(src.height*s);
+  const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);
+  const d=c.getContext('2d').getImageData(0,0,w,h).data;
+  let br=0,bg=0,bb=0,n=0;const ring=Math.max(2,Math.round(Math.min(w,h)*0.045));
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){if(x<ring||y<ring||x>=w-ring||y>=h-ring){const i=(y*w+x)*4;br+=d[i];bg+=d[i+1];bb+=d[i+2];n++}}
+  br/=n;bg/=n;bb/=n;
+  const dist=new Float32Array(w*h);let maxd=0;
+  for(let p=0;p<w*h;p++){const i=p*4,dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb,v=Math.sqrt(dr*dr+dg*dg+db*db);dist[p]=v;if(v>maxd)maxd=v}
+  if(maxd<28)return null;
+  const B=64,hist=new Array(B).fill(0);for(let p=0;p<w*h;p++)hist[Math.min(B-1,Math.floor(dist[p]/maxd*B))]++;
+  const total=w*h;let sum=0;for(let i=0;i<B;i++)sum+=i*hist[i];
+  let sumB=0,wB=0,maxVar=-1,thr=0;
+  for(let i=0;i<B;i++){wB+=hist[i];if(!wB)continue;const wF=total-wB;if(!wF)break;sumB+=i*hist[i];const mB=sumB/wB,mF=(sum-sumB)/wF,v=wB*wF*(mB-mF)*(mB-mF);if(v>maxVar){maxVar=v;thr=i}}
+  const t=thr/B*maxd,fg=new Uint8Array(w*h);for(let p=0;p<w*h;p++)fg[p]=dist[p]>t?1:0;
+  const lab=new Uint8Array(w*h),stack=[];let best=null,bestSize=0;
+  for(let p=0;p<w*h;p++){if(!fg[p]||lab[p])continue;lab[p]=1;stack.length=0;stack.push(p);const comp=[];let size=0;
+    while(stack.length){const q=stack.pop();comp.push(q);size++;const x=q%w,y=(q/w)|0;
+      if(x>0&&fg[q-1]&&!lab[q-1]){lab[q-1]=1;stack.push(q-1)}if(x<w-1&&fg[q+1]&&!lab[q+1]){lab[q+1]=1;stack.push(q+1)}
+      if(y>0&&fg[q-w]&&!lab[q-w]){lab[q-w]=1;stack.push(q-w)}if(y<h-1&&fg[q+w]&&!lab[q+w]){lab[q+w]=1;stack.push(q+w)}}
+    if(size>bestSize){bestSize=size;best=comp}}
+  if(!best||bestSize<w*h*0.06)return null;
+  let tl,tr,bl,brr,minSum=1e9,maxSum=-1e9,minDiff=1e9,maxDiff=-1e9;
+  for(const q of best){const x=q%w,y=(q/w)|0,su=x+y,df=x-y;
+    if(su<minSum){minSum=su;tl=[x,y]}if(su>maxSum){maxSum=su;brr=[x,y]}
+    if(df>maxDiff){maxDiff=df;tr=[x,y]}if(df<minDiff){minDiff=df;bl=[x,y]}}
+  const pts=[tl,tr,brr,bl].map(p=>[p[0]/s,p[1]/s]);
+  const area=Math.abs((pts[0][0]*(pts[1][1]-pts[3][1])+pts[1][0]*(pts[2][1]-pts[0][1])+pts[2][0]*(pts[3][1]-pts[1][1])+pts[3][0]*(pts[0][1]-pts[2][1]))/2);
+  const frac=area/(src.width*src.height);
+  if(frac<0.12||frac>0.99)return null;
+  const side=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  if(Math.min(side(pts[0],pts[1]),side(pts[1],pts[2]),side(pts[2],pts[3]),side(pts[3],pts[0]))<Math.min(src.width,src.height)*0.12)return null;
+  return pts;
+}
+function scanAutoDetect(silent){
+  if(!scan.src)return false;
+  const det=scanDetectCorners(scan.src);
+  if(det){scan.corners=det;if(scan.step==='result')scanBuild();scanDraw();if(!silent)toast('Page edges detected');return true}
+  if(!silent)toast('Couldn’t find the page — drag the corners yourself.');
+  return false;
+}
+
 function scanResetCorners(){const w=scan.src.width,h=scan.src.height,m=0.06;
   scan.corners=[[w*m,h*m],[w*(1-m),h*m],[w*(1-m),h*(1-m)],[w*m,h*(1-m)]];}
 segInit('scan-step',v=>{scan.step=v;if(v==='result')scanBuild();scanDraw()});
 segInit('scan-filter',v=>{scan.filter=v;if(scan.step==='result'){scanBuild();scanDraw()}});
 $('#scan-reset').onclick=()=>{if(!scan.src)return;scanResetCorners();scan.step='corners';$$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));scanDraw()};
+$('#scan-auto').onclick=()=>{if(!scan.src)return;scan.step='corners';$$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));scanAutoDetect(false)};
 function rotateCanvas(c,dir){const o=document.createElement('canvas');o.width=c.height;o.height=c.width;const x=o.getContext('2d');x.translate(o.width/2,o.height/2);x.rotate(dir*Math.PI/2);x.drawImage(c,-c.width/2,-c.height/2);return o}
 function scanRotate(dir){if(!scan.src)return;
   const W=scan.src.width,H=scan.src.height;
@@ -1229,6 +1305,75 @@ $('#mt-go').addEventListener('click',async()=>{
   }catch(err){status('mt','Couldn’t save: '+err.message,'err')}
   btn.disabled=false;
 });
+
+/* ---------- COMPRESS ---------- */
+const cp={file:null,kind:null,buf:null,targetKB:500};
+function fmtSize(b){return b>=1048576?(b/1048576).toFixed(2)+' MB':Math.round(b/1024)+' KB'}
+$('#cp-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+  const name=f.name.toLowerCase();
+  cp.kind=/\.pdf$/.test(name)||f.type==='application/pdf'?'pdf':f.type.startsWith('image/')||/\.(jpe?g|png|webp)$/.test(name)?'img':null;
+  if(!cp.kind){status('cp','Please choose a photo or PDF.','err');return}
+  cp.file=f;cp.buf=await f.arrayBuffer();
+  $('#cp-chip').textContent=(cp.kind==='pdf'?'📕 ':'🖼️ ')+f.name;$('#cp-chip').classList.remove('hidden');
+  $('#cp-orig').textContent=fmtSize(f.size);$('#cp-after').textContent='';
+  $('#cp-dim-box').style.display=cp.kind==='pdf'?'none':'';
+  $('#cp-hint').textContent=cp.kind==='pdf'?'PDF pages are re-saved as images to shrink them, so text won’t stay selectable.':'Saved as JPG at the best quality that fits your target.';
+  $('#cp-box').classList.remove('hidden');status('cp','');
+});
+$('#cp-presets').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#cp-presets button').forEach(x=>x.classList.toggle('on',x===b));
+  cp.targetKB=+b.dataset.kb;$('#cp-num').value=cp.targetKB>=1024?cp.targetKB/1024:cp.targetKB;$$('#cp-unit button').forEach(x=>x.classList.toggle('on',x.dataset.v===(cp.targetKB>=1024?'mb':'kb')))});
+function cpReadNum(){const v=+$('#cp-num').value||0;const unit=segVal('cp-unit');cp.targetKB=Math.max(5,unit==='mb'?v*1024:v);$$('#cp-presets button').forEach(x=>x.classList.remove('on'))}
+$('#cp-num').addEventListener('input',cpReadNum);segInit('cp-unit',cpReadNum);segInit('cp-dim');
+$('#cp-go').addEventListener('click',async()=>{
+  if(!cp.file)return;const target=cp.targetKB*1024;const btn=$('#cp-go');btn.disabled=true;
+  if(cp.file.size<=target){status('cp','This file ('+fmtSize(cp.file.size)+') is already under your target — nothing to do.','ok');btn.disabled=false;return}
+  status('cp','Compressing…');await new Promise(r=>setTimeout(r,30));
+  try{
+    const {blob,note}=cp.kind==='pdf'?await cpPdf(target):await cpImg(target);
+    $('#cp-after').textContent='→ New: '+fmtSize(blob.size);
+    const ext=cp.kind==='pdf'?'pdf':'jpg';const ok=await save(baseName(cp.file.name)+'-compressed.'+ext,blob);
+    status('cp',(ok?'Done. ':'')+note,blob.size<=target?'ok':'');
+  }catch(err){status('cp','Couldn’t compress: '+err.message,'err')}
+  btn.disabled=false;
+});
+async function cpImg(target){
+  const maxDim=+segVal('cp-dim');
+  let base=await loadImageFile(cp.file,6000);
+  if(maxDim&&Math.max(base.width,base.height)>maxDim){const s=maxDim/Math.max(base.width,base.height);base=cpScale(base,s)}
+  let work=base;
+  for(let attempt=0;attempt<7;attempt++){
+    let lo=0.05,hi=0.95,best=null;
+    for(let i=0;i<8;i++){const q=(lo+hi)/2;const blob=await canvasBlob(work,'image/jpeg',q);if(blob.size<=target){best=blob;lo=q}else hi=q}
+    if(best)return {blob:best,note:'Fits under '+fmtSize(target)+'.'};
+    work=cpScale(work,0.8); // too big even at low quality → shrink pixels
+  }
+  const blob=await canvasBlob(work,'image/jpeg',0.05);
+  return {blob,note:blob.size<=target?'Fits under target.':'Couldn’t reach the target without destroying the image; this is the smallest sensible version ('+fmtSize(blob.size)+'). Try a larger target.'};
+}
+function cpScale(c,s){const o=document.createElement('canvas');o.width=Math.max(1,Math.round(c.width*s));o.height=Math.max(1,Math.round(c.height*s));const x=o.getContext('2d');x.imageSmoothingQuality='high';x.fillStyle='#fff';x.fillRect(0,0,o.width,o.height);x.drawImage(c,0,0,o.width,o.height);return o}
+async function cpPdf(target){
+  await loadPdfjs();await loadScript(CDN.jspdf);
+  const pdf=await pdfjsLib.getDocument({data:new Uint8Array(cp.buf)}).promise;
+  const base=[];
+  for(let p=1;p<=pdf.numPages;p++){status('cp',`Reading page ${p}/${pdf.numPages}…`);
+    const page=await pdf.getPage(p);const vp1=page.getViewport({scale:1});const scale=Math.min(2,1500/Math.max(vp1.width,vp1.height));
+    const vp=page.getViewport({scale});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+    await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;base.push({c,wPt:vp1.width,hPt:vp1.height})}
+  const {jsPDF}=window.jspdf;
+  const build=(cans,q)=>{const doc=new jsPDF({unit:'pt',format:[cans[0].wPt,cans[0].hPt]});
+    cans.forEach((pg,i)=>{if(i)doc.addPage([pg.wPt,pg.hPt]);doc.addImage(pg.c.toDataURL('image/jpeg',q),'JPEG',0,0,pg.wPt,pg.hPt,undefined,'FAST')});
+    return doc.output('blob')};
+  let cans=base;
+  for(const fac of [1,0.8,0.65,0.5,0.4]){
+    if(fac!==1)cans=base.map(pg=>({c:cpScale(pg.c,fac),wPt:pg.wPt,hPt:pg.hPt}));
+    let lo=0.25,hi=0.9,best=null;
+    for(let i=0;i<6;i++){const q=(lo+hi)/2;status('cp','Finding best quality…');const blob=build(cans,q);if(blob.size<=target){best=blob;lo=q}else hi=q}
+    if(best)return {blob:best,note:'Fits under '+fmtSize(target)+'.'};
+    const low=build(cans,0.25);if(low.size<=target)return {blob:low,note:'Fits under target.'};
+  }
+  const blob=build(cans,0.25);
+  return {blob,note:blob.size<=target?'Fits under target.':'Couldn’t reach that size for this PDF; smallest is '+fmtSize(blob.size)+'. Try a larger target.'};
+}
 
 showTab();
 if('serviceWorker' in navigator && location.protocol==='https:' || location.hostname==='localhost'){
