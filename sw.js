@@ -1,10 +1,10 @@
 // DocTools offline cache
-const VERSION = 'doctools-v2';
+const VERSION = 'doctools-v10';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest',
   'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png',
   'vendor/mammoth.browser.min.js', 'vendor/html2pdf.bundle.min.js', 'vendor/pdf.min.js', 'vendor/pdf.worker.min.js',
-  'vendor/docx.umd.js', 'vendor/jspdf.umd.min.js', 'vendor/cropper.min.js'
+  'vendor/docx.umd.js', 'vendor/jspdf.umd.min.js', 'vendor/cropper.min.js', 'vendor/pdf-lib.min.js', 'vendor/piexif.js', 'vendor/jszip.min.js'
 ];
 
 self.addEventListener('install', e => {
