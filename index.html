@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DocTools">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f6fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<title>DocTools – PDF, Word & Photo Toolkit</title>
+<style>
+/*!
+ * Cropper.js v1.6.1
+ * https://fengyuanchen.github.io/cropperjs
+ *
+ * Copyright 2015-present Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2023-09-17T03:44:17.565Z
+ */.cropper-container{direction:ltr;font-size:0;line-height:0;position:relative;-ms-touch-action:none;touch-action:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.cropper-container img{backface-visibility:hidden;display:block;height:100%;image-orientation:0deg;max-height:none!important;max-width:none!important;min-height:0!important;min-width:0!important;width:100%}.cropper-canvas,.cropper-crop-box,.cropper-drag-box,.cropper-modal,.cropper-wrap-box{bottom:0;left:0;position:absolute;right:0;top:0}.cropper-canvas,.cropper-wrap-box{overflow:hidden}.cropper-drag-box{background-color:#fff;opacity:0}.cropper-modal{background-color:#000;opacity:.5}.cropper-view-box{display:block;height:100%;outline:1px solid #39f;outline-color:rgba(51,153,255,.75);overflow:hidden;width:100%}.cropper-dashed{border:0 dashed #eee;display:block;opacity:.5;position:absolute}.cropper-dashed.dashed-h{border-bottom-width:1px;border-top-width:1px;height:33.33333%;left:0;top:33.33333%;width:100%}.cropper-dashed.dashed-v{border-left-width:1px;border-right-width:1px;height:100%;left:33.33333%;top:0;width:33.33333%}.cropper-center{display:block;height:0;left:50%;opacity:.75;position:absolute;top:50%;width:0}.cropper-center:after,.cropper-center:before{background-color:#eee;content:" ";display:block;position:absolute}.cropper-center:before{height:1px;left:-3px;top:0;width:7px}.cropper-center:after{height:7px;left:0;top:-3px;width:1px}.cropper-face,.cropper-line,.cropper-point{display:block;height:100%;opacity:.1;position:absolute;width:100%}.cropper-face{background-color:#fff;left:0;top:0}.cropper-line{background-color:#39f}.cropper-line.line-e{cursor:ew-resize;right:-3px;top:0;width:5px}.cropper-line.line-n{cursor:ns-resize;height:5px;left:0;top:-3px}.cropper-line.line-w{cursor:ew-resize;left:-3px;top:0;width:5px}.cropper-line.line-s{bottom:-3px;cursor:ns-resize;height:5px;left:0}.cropper-point{background-color:#39f;height:5px;opacity:.75;width:5px}.cropper-point.point-e{cursor:ew-resize;margin-top:-3px;right:-3px;top:50%}.cropper-point.point-n{cursor:ns-resize;left:50%;margin-left:-3px;top:-3px}.cropper-point.point-w{cursor:ew-resize;left:-3px;margin-top:-3px;top:50%}.cropper-point.point-s{bottom:-3px;cursor:s-resize;left:50%;margin-left:-3px}.cropper-point.point-ne{cursor:nesw-resize;right:-3px;top:-3px}.cropper-point.point-nw{cursor:nwse-resize;left:-3px;top:-3px}.cropper-point.point-sw{bottom:-3px;cursor:nesw-resize;left:-3px}.cropper-point.point-se{bottom:-3px;cursor:nwse-resize;height:20px;opacity:1;right:-3px;width:20px}@media (min-width:768px){.cropper-point.point-se{height:15px;width:15px}}@media (min-width:992px){.cropper-point.point-se{height:10px;width:10px}}@media (min-width:1200px){.cropper-point.point-se{height:5px;opacity:.75;width:5px}}.cropper-point.point-se:before{background-color:#39f;bottom:-50%;content:" ";display:block;height:200%;opacity:0;position:absolute;right:-50%;width:200%}.cropper-invisible{opacity:0}.cropper-bg{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC")}.cropper-hide{display:block;height:0;position:absolute;width:0}.cropper-hidden{display:none!important}.cropper-move{cursor:move}.cropper-crop{cursor:crosshair}.cropper-disabled .cropper-drag-box,.cropper-disabled .cropper-face,.cropper-disabled .cropper-line,.cropper-disabled .cropper-point{cursor:not-allowed}
+:root{
+  --bg:#f5f6fa; --card:#fff; --ink:#151827; --muted:#6b7084; --line:#e4e6ee;
+  --accent:#3b5bfd; --accent-ink:#fff; --accent-soft:#eef1ff; --ok:#13a36b; --err:#d33f49;
+  --radius:16px; --shadow:0 1px 2px rgba(20,24,40,.05),0 8px 24px rgba(20,24,40,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--muted:#9aa0b4;--line:#2a2e3b;--accent:#6c84ff;--accent-soft:#232a48;--shadow:none}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+textarea,input,select{font-size:16px}
+.sheet{position:fixed;inset:0;background:rgba(10,12,20,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet>div{background:var(--card);color:var(--ink);width:100%;max-width:460px;border-radius:18px 18px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.sheet h3{margin:0 0 4px;font-size:17px}.sheet p{margin:0 0 14px;color:var(--muted);font-size:14px;word-break:break-all}
+.sheet .btn{width:100%;justify-content:center;margin-top:8px;padding:12px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.logo{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:800}
+h1{font-size:22px;margin:0;letter-spacing:-.02em}
+.tag{color:var(--muted);margin:0 0 22px;font-size:14px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+nav a{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+nav a svg{width:18px;height:18px;flex:none}
+nav a.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+.panel.on{display:block}
+.panel h2{margin:0 0 4px;font-size:19px;letter-spacing:-.01em}
+.panel .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.drop{display:block;border:2px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;cursor:pointer;transition:.15s;background:var(--bg)}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop strong{display:block;font-size:15px;margin-bottom:2px}
+.drop span{color:var(--muted);font-size:13px}
+.drop input{display:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:10px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:6px 10px;font-size:13px}
+.status{margin-top:14px;font-size:14px;color:var(--muted);min-height:1.5em}
+.status.ok{color:var(--ok)} .status.err{color:var(--err)}
+.file-chip{display:inline-flex;gap:8px;align-items:center;background:var(--accent-soft);color:var(--accent);padding:6px 12px;border-radius:999px;font-weight:600;font-size:13px;margin-top:14px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-box{margin-top:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:16px;max-height:520px;overflow:auto}
+.docpage{background:#fff;color:#111;width:180mm;max-width:100%;margin:0 auto;padding:0;font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4}
+.docpage img{max-width:100%;height:auto}
+.docpage table{border-collapse:collapse;width:100%;margin:8px 0}
+.docpage td,.docpage th{border:1px solid #999;padding:4px 6px;vertical-align:top}
+.docpage h1{font-size:20pt}.docpage h2{font-size:16pt}.docpage h3{font-size:13pt}
+.docpage p{margin:0 0 8pt}
+label.opt{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:8px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.hint{font-size:13px;color:var(--muted)}
+.editor{display:grid;grid-template-columns:1fr 280px;gap:20px;margin-top:16px}
+@media (min-width:821px){.editor.wide{grid-template-columns:1fr 300px}}
+@media (max-width:820px){.editor{grid-template-columns:1fr}}
+.stage{background:repeating-conic-gradient(#e9ebf2 0 25%,#fff 0 50%) 0 0/18px 18px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;min-height:320px;overflow:hidden;position:relative;touch-action:none}
+.stage canvas{max-width:100%;max-height:70vh;display:block}
+.side{display:flex;flex-direction:column;gap:16px}
+.side h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:32px;height:32px;border-radius:9px;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.sw.trans{background:repeating-conic-gradient(#ccc 0 25%,#fff 0 50%) 0 0/10px 10px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=color]{width:32px;height:32px;border:2px solid var(--line);border-radius:9px;padding:0;background:none;cursor:pointer}
+.pages{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.pages .pg{position:relative;width:74px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.pages .pg img{width:100%;display:block}
+.pages .pg button{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:12px;cursor:pointer;line-height:20px;padding:0}
+.pages .pg i{position:absolute;bottom:2px;left:4px;font-style:normal;font-size:11px;background:rgba(0,0,0,.55);color:#fff;border-radius:4px;padding:0 4px}
+.crop-wrap{max-height:70vh;background:var(--bg);border-radius:12px;overflow:hidden}
+.crop-wrap img{display:block;max-width:100%}
+.meta{font-size:13px;color:var(--muted)}
+.hidden{display:none!important}
+.progress{margin-top:14px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.progress .bar{flex:1;max-width:340px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.chips button:hover,.chips button.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.describe{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg)}
+.describe h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.describe textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:14px;background:var(--card);color:var(--ink);resize:vertical}
+.sl{margin-bottom:10px}.sl .lab{display:flex;justify-content:space-between;font-size:13px;font-weight:600}.sl .lab span{color:var(--muted);font-weight:500}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1}
+.note{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink);margin-top:14px}
+footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
+@media (max-width:640px){
+  nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px 16px;padding:0 20px}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none}
+  .panel{padding:16px}
+  .tag{margin-bottom:14px}
+  .stage canvas{max-height:60vh}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="logo">D</div><h1>DocTools</h1></header>
+  <p class="tag">Convert documents and edit photos right in your browser. Your files never leave your device.</p>
+
+  <nav id="nav">
+    <a href="#word-to-pdf" data-t="word-to-pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Word → PDF</a>
+    <a href="#pdf-to-word" data-t="pdf-to-word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 17l1.5-5 1.5 4 1.5-4 1.5 5"/></svg>PDF → Word</a>
+    <a href="#scan" data-t="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></svg>Scan photo</a>
+    <a href="#background" data-t="background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M6 21c1-3.5 3.5-5 6-5s5 1.5 6 5"/></svg>Passport photo</a>
+    <a href="#edit" data-t="edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M19 15l.8 1.7 1.7.8-1.7.8L19 20l-.8-1.7-1.7-.8 1.7-.8z"/></svg>Photo editor</a>
+    <a href="#crop" data-t="crop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14M18 22V8a2 2 0 0 0-2-2H2"/></svg>Crop photo</a>
+  </nav>
+
+  <!-- WORD TO PDF -->
+  <section class="panel" id="p-word-to-pdf">
+    <h2>Word to PDF</h2>
+    <p class="sub">Turn a .docx file into a PDF. Text, headings, lists, tables and pictures are kept.</p>
+    <label class="drop" data-drop="w2p"><input type="file" accept=".docx" id="w2p-file"><strong>Choose a Word file or drop it here</strong><span>.docx files only (for old .doc files, re-save as .docx in Word first)</span></label>
+    <div id="w2p-chip" class="file-chip hidden"></div>
+    <div class="row">
+      <span class="hint">Page size</span>
+      <div class="seg" id="w2p-size"><button data-v="a4" class="on">A4</button><button data-v="letter">Letter</button></div>
+      <button class="btn primary" id="w2p-go" disabled>Convert &amp; download PDF</button>
+    </div>
+    <div class="status" id="w2p-status"></div>
+    <div class="preview-box hidden" id="w2p-prev-box"><div class="docpage" id="w2p-prev"></div></div>
+  </section>
+
+  <!-- PDF TO WORD -->
+  <section class="panel" id="p-pdf-to-word">
+    <h2>PDF to Word</h2>
+    <p class="sub">Turn a PDF into a Word document you can open in Microsoft Word or Google Docs.</p>
+    <label class="drop" data-drop="p2w"><input type="file" accept="application/pdf,.pdf" id="p2w-file"><strong>Choose a PDF or drop it here</strong><span>Works best with PDFs that were made on a computer</span></label>
+    <div id="p2w-chip" class="file-chip hidden"></div>
+    <div class="row">
+      <span class="hint">Mode</span>
+      <div class="seg" id="p2w-mode"><button data-v="text" class="on">Editable text</button><button data-v="image">Exact look</button></div>
+      <button class="btn primary" id="p2w-go" disabled>Convert &amp; download Word</button>
+    </div>
+    <p class="hint" id="p2w-mode-hint" style="margin:10px 0 0">Editable text: pulls out the words so you can edit them. Layout is simplified.</p>
+    <div class="status" id="p2w-status"></div>
+  </section>
+
+  <!-- SCAN -->
+  <section class="panel" id="p-scan">
+    <h2>Scan a photo</h2>
+    <p class="sub">Take a picture of a document, drag the four corners onto its edges, and get a clean, flat scan. Add several pages to make one PDF.</p>
+    <label class="drop" data-drop="scan"><input type="file" accept="image/*" id="scan-file"><strong>Choose a photo of a document</strong><span>On a phone you can take a picture straight away</span></label>
+    <div class="editor hidden" id="scan-editor">
+      <div>
+        <div class="stage" id="scan-stage"><canvas id="scan-canvas"></canvas></div>
+        <p class="hint" id="scan-hint" style="margin:8px 0 0">Drag the blue dots onto the corners of the page.</p>
+      </div>
+      <div class="side">
+        <div>
+          <h3>Step</h3>
+          <div class="seg" id="scan-step"><button data-v="corners" class="on">1. Corners</button><button data-v="result">2. Result</button></div>
+        </div>
+        <div>
+          <h3>Look</h3>
+          <div class="seg" id="scan-filter" style="flex-wrap:wrap"><button data-v="doc" class="on">B&amp;W doc</button><button data-v="color">Colour</button><button data-v="grey">Grey</button><button data-v="none">Original</button></div>
+        </div>
+        <div>
+          <h3>Rotate</h3>
+          <div class="row" style="margin:0"><button class="btn sm" id="scan-rotl">⟲ Left</button><button class="btn sm" id="scan-rotr">⟳ Right</button><button class="btn sm" id="scan-reset">Reset corners</button></div>
+        </div>
+        <div>
+          <h3>Save</h3>
+          <div class="row" style="margin:0"><button class="btn primary sm" id="scan-add">+ Add page</button><button class="btn sm" id="scan-jpg">Download JPG</button></div>
+          <div class="pages" id="scan-pages"></div>
+          <div class="row"><button class="btn primary" id="scan-pdf" disabled>Download PDF</button></div>
+          <label class="drop" data-drop="scan2" style="padding:10px;margin-top:10px"><input type="file" accept="image/*" id="scan-file2"><span>Load next photo</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="status" id="scan-status"></div>
+  </section>
+
+  <!-- BACKGROUND -->
+  <section class="panel" id="p-background">
+    <h2>Passport photo &amp; background</h2>
+    <p class="sub">Upload a photo and the background is removed automatically by AI on your device. It's then framed at UK passport size (35 × 45 mm) with a plain background, ready to download or print.</p>
+    <label class="drop" data-drop="bg"><input type="file" accept="image/*" id="bg-file"><strong>Choose a photo</strong><span>Face the camera, with your shoulders in the shot and good, even light</span></label>
+    <div class="progress hidden" id="bg-prog"><div class="bar"><i id="bg-bar"></i></div><span id="bg-prog-t">Starting…</span></div>
+    <div class="editor hidden" id="bg-editor">
+      <div>
+        <div class="stage" id="bg-stage"><canvas id="bg-canvas"></canvas></div>
+        <p class="hint" style="margin:8px 0 0" id="bg-hint"></p>
+      </div>
+      <div class="side">
+        <div>
+          <h3>Size</h3>
+          <div class="seg" id="bg-size"><button data-v="pp" class="on">Passport 35×45</button><button data-v="orig">Original</button></div>
+        </div>
+        <div id="bg-pp-box">
+          <h3>Position</h3>
+          <div class="row" style="margin:0 0 8px"><button class="btn sm" id="bg-autofit">✨ Auto-fit head</button><label class="opt"><input type="checkbox" id="bg-guides" checked> Guides</label></div>
+          <h3>Zoom</h3>
+          <input type="range" id="bg-zoom" min="-300" max="300" value="0">
+        </div>
+        <div>
+          <h3>Background</h3>
+          <div class="swatches" id="bg-sw">
+            <button class="sw on" data-c="#e8e8e8" style="background:#e8e8e8" title="Light grey (UK passport)"></button>
+            <button class="sw" data-c="#f3ecd9" style="background:#f3ecd9" title="Cream (UK passport)"></button>
+            <button class="sw" data-c="#ffffff" style="background:#fff" title="White"></button>
+            <button class="sw" data-c="#4f8fe0" style="background:#4f8fe0" title="Blue"></button>
+            <button class="sw" data-c="#c62828" style="background:#c62828" title="Red"></button>
+            <button class="sw trans" data-c="transparent" title="Transparent"></button>
+            <input type="color" id="bg-custom" value="#8bc34a" title="Any colour">
+          </div>
+          <p class="hint" style="margin:6px 0 0">UK passports need light grey or cream.</p>
+          <label class="btn sm" style="margin-top:8px;width:fit-content">Use a picture<input type="file" accept="image/*" id="bg-img" class="hidden"></label>
+        </div>
+        <div>
+          <h3>Touch up</h3>
+          <div class="seg" id="bg-tool"><button data-v="move" class="on">Move</button><button data-v="erase">Erase</button><button data-v="restore">Restore</button><button data-v="wand">Tap</button></div>
+          <div id="bg-brush-box" class="hidden" style="margin-top:8px">
+            <span class="hint">Brush size <span id="bg-brush-v">30</span></span>
+            <input type="range" id="bg-brush" min="4" max="150" value="30">
+          </div>
+          <div id="bg-tol-box" class="hidden" style="margin-top:8px">
+            <span class="hint">Colour match <span id="bg-tol-v">35</span></span>
+            <input type="range" id="bg-tol" min="5" max="120" value="35">
+            <label class="opt"><input type="checkbox" id="bg-contig" checked> Only connected areas</label>
+          </div>
+          <div class="row" style="margin:8px 0 0">
+            <button class="btn sm" id="bg-undo">↶ Undo</button>
+            <button class="btn sm" id="bg-ai-again">Redo AI cut-out</button>
+          </div>
+        </div>
+        <div>
+          <h3>Download</h3>
+          <div class="row" style="margin:0" id="bg-dl-pp">
+            <button class="btn primary" id="bg-dl-photo">Passport photo (JPG)</button>
+            <button class="btn" id="bg-dl-sheet">Print sheet 6×4″</button>
+          </div>
+          <div class="row hidden" style="margin:0" id="bg-dl-orig">
+            <button class="btn primary" id="bg-png">PNG</button>
+            <button class="btn" id="bg-jpg">JPG</button>
+          </div>
+          <p class="hint" style="margin:6px 0 0" id="bg-dl-hint">The print sheet has 8 passport photos on a standard 6×4 inch print. Most photo shops and kiosks print these.</p>
+        </div>
+        <label class="drop" data-drop="bg2" style="padding:10px"><input type="file" accept="image/*" id="bg-file2"><span>Use a different photo</span></label>
+      </div>
+    </div>
+    <div class="status" id="bg-status"></div>
+  </section>
+
+  <!-- EDIT -->
+  <section class="panel" id="p-edit">
+    <h2>Photo editor</h2>
+    <p class="sub">Give a photo a professional photoshoot look. Pick a preset, blur or replace the background, and fine-tune it yourself.</p>
+    <label class="drop" data-drop="ed"><input type="file" accept="image/*" id="ed-file"><strong>Choose a photo</strong><span>Portraits work best, but any photo is fine</span></label>
+    <div class="progress hidden" id="ed-prog"><div class="bar"><i id="ed-bar"></i></div><span id="ed-prog-t"></span></div>
+    <div class="editor wide hidden" id="ed-editor">
+      <div>
+        <div class="stage" id="ed-stage" style="background:var(--bg)"><canvas id="ed-canvas"></canvas></div>
+        <div class="row">
+          <button class="btn sm" id="ed-before">Hold to see original</button>
+          <button class="btn sm" id="ed-reset">Reset all</button>
+          <span style="flex:1"></span>
+          <button class="btn primary" id="ed-dl">Download JPG</button>
+        </div>
+        <div class="describe" id="ed-ai-box">
+          <h3>Describe the look</h3>
+          <textarea id="ed-desc" rows="2" placeholder="e.g. warm golden-hour portrait with a softly blurred background, like a magazine photoshoot"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary" id="ed-ai-go">✨ Apply this look</button>
+            <span class="hint" id="ed-ai-note"></span>
+          </div>
+          <div class="chips" id="ed-ideas">
+            <button>Professional LinkedIn headshot</button><button>Warm golden-hour glow</button><button>Moody black &amp; white</button><button>Bright, airy wedding style</button><button>Vintage 90s film</button><button>Fashion magazine, studio backdrop</button>
+          </div>
+        </div>
+      </div>
+      <div class="side">
+        <div>
+          <h3>Photoshoot presets</h3>
+          <div class="chips" id="ed-presets"></div>
+        </div>
+        <div>
+          <h3>Background</h3>
+          <div class="seg" id="ed-bgmode"><button data-v="keep" class="on">Keep</button><button data-v="blur">Blur</button><button data-v="studio">Studio</button></div>
+          <div id="ed-bgblur-box" class="hidden" style="margin-top:8px"><span class="hint">Blur amount</span><input type="range" id="ed-bgBlur" min="0" max="100" value="50"></div>
+          <div id="ed-backdrop-box" class="hidden" style="margin-top:8px">
+            <div class="swatches" id="ed-bd">
+              <button class="sw on" data-c="#8a8f98" style="background:#8a8f98" title="Studio grey"></button>
+              <button class="sw" data-c="#f2efe9" style="background:#f2efe9" title="Off-white"></button>
+              <button class="sw" data-c="#1d2230" style="background:#1d2230" title="Charcoal"></button>
+              <button class="sw" data-c="#2f4a6d" style="background:#2f4a6d" title="Navy"></button>
+              <button class="sw" data-c="#c9a27a" style="background:#c9a27a" title="Warm beige"></button>
+              <button class="sw" data-c="#6f8f72" style="background:#6f8f72" title="Sage"></button>
+              <input type="color" id="ed-bd-custom" value="#7a5c99" title="Any colour">
+            </div>
+          </div>
+        </div>
+        <div id="ed-sliders"></div>
+      </div>
+    </div>
+    <div class="status" id="ed-status"></div>
+  </section>
+
+  <!-- CROP -->
+  <section class="panel" id="p-crop">
+    <h2>Crop photo</h2>
+    <p class="sub">Drag the box to crop. Pick a shape, rotate or flip, then download.</p>
+    <label class="drop" data-drop="crop"><input type="file" accept="image/*" id="crop-file"><strong>Choose a photo</strong><span>JPG, PNG or WebP</span></label>
+    <div class="editor hidden" id="crop-editor">
+      <div>
+        <div class="crop-wrap"><img id="crop-img" alt=""></div>
+        <p class="meta" id="crop-meta" style="margin:8px 0 0"></p>
+      </div>
+      <div class="side">
+        <div>
+          <h3>Shape</h3>
+          <div class="seg" id="crop-ratio" style="flex-wrap:wrap">
+            <button data-v="NaN" class="on">Free</button><button data-v="1">1:1</button><button data-v="1.3333">4:3</button><button data-v="1.7778">16:9</button><button data-v="0.7778">Passport</button>
+          </div>
+          <p class="hint" style="margin:6px 0 0">Passport = 35 × 45 mm (UK)</p>
+        </div>
+        <div>
+          <h3>Rotate &amp; flip</h3>
+          <div class="row" style="margin:0">
+            <button class="btn sm" id="crop-rl">⟲</button><button class="btn sm" id="crop-rr">⟳</button>
+            <button class="btn sm" id="crop-fh">⇋ Flip</button><button class="btn sm" id="crop-fv">⇅ Flip</button>
+          </div>
+          <h3 style="margin-top:12px">Straighten <span id="crop-ang-v" style="text-transform:none">0°</span></h3>
+          <input type="range" id="crop-ang" min="-45" max="45" value="0" step="0.5">
+        </div>
+        <div>
+          <h3>Format</h3>
+          <div class="seg" id="crop-fmt"><button data-v="jpg" class="on">JPG</button><button data-v="png">PNG</button></div>
+        </div>
+        <div class="row" style="margin:0">
+          <button class="btn" id="crop-reset">Reset</button>
+          <button class="btn primary" id="crop-go">Download</button>
+        </div>
+      </div>
+    </div>
+    <div class="status" id="crop-status"></div>
+  </section>
+
+  <footer>Everything runs on your device. Nothing is uploaded, and it works offline.</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600)}
+function status(id,msg,kind){const el=$('#'+id+'-status');el.textContent=msg||'';el.className='status'+(kind?' '+kind:'')}
+const loaded={};
+function loadScript(src){
+  if(loaded[src]) return loaded[src];
+  return loaded[src]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>{delete loaded[src];rej(new Error('Could not load '+src))};document.head.appendChild(s)});
+}
+const CDN={
+  mammoth:'vendor/mammoth.browser.min.js',
+  html2pdf:'vendor/html2pdf.bundle.min.js',
+  pdfjs:'vendor/pdf.min.js',
+  pdfworker:'vendor/pdf.worker.min.js',
+  docx:'vendor/docx.umd.js',
+  jspdf:'vendor/jspdf.umd.min.js',
+  cropper:'vendor/cropper.min.js'
+};
+function baseName(n){return (n||'file').replace(/\.[^.]+$/,'')}
+function canvasBlob(c,type,q){return new Promise(r=>c.toBlob(r,type,q))}
+
+/* downloads go through the platform's save prompt */
+const MIME={pdf:'application/pdf',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',jpg:'image/jpeg',png:'image/png'};
+function downloadLink(file){const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000)}
+function saveSheet(file){
+  // shown when the share sheet needs a fresh tap (iPhone only allows it straight after a tap)
+  return new Promise(res=>{
+    const w=document.createElement('div');w.className='sheet';
+    w.innerHTML=`<div><h3>Your file is ready</h3><p>${file.name.replace(/[<>&]/g,'')}</p><button class="btn primary" data-a="share">Save or share…</button><button class="btn" data-a="close">Close</button></div>`;
+    w.addEventListener('click',async e=>{const act=e.target.dataset&&e.target.dataset.a;
+      if(act==='share'){try{await navigator.share({files:[file]});w.remove();toast('Done');res(true)}catch(err){if(err.name!=='AbortError'){downloadLink(file);w.remove();res(true)}}}
+      else if(act==='close'||e.target===w){w.remove();res(false)}});
+    document.body.appendChild(w);
+  });
+}
+async function save(filename,blob){
+  const ext=filename.split('.').pop().toLowerCase();
+  const file=new File([blob],filename,{type:MIME[ext]||blob.type||'application/octet-stream'});
+  const touch=navigator.maxTouchPoints>0;
+  if(touch&&navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file]});toast('Done');return true}
+    catch(e){if(e.name==='AbortError')return false;return saveSheet(file)}
+  }
+  try{downloadLink(file);toast('Saved '+filename);return true}catch(e){return saveSheet(file)}
+}
+
+/* image loading with size cap */
+function loadImageFile(file,max=2400){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(file);const img=new Image();
+    img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight;const s=Math.min(1,max/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+      const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c)};
+    img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('That image format isn’t supported by your browser. Try a JPG or PNG.'))};
+    img.src=url;
+  });
+}
+
+/* tabs via hash */
+const TABS=['word-to-pdf','pdf-to-word','scan','background','edit','crop'];
+function showTab(){const h=location.hash.slice(1);const t=TABS.includes(h)?h:TABS[0];
+  $$('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.t===t));
+  $$('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));
+  if(t==='scan') scanDraw(); if(t==='background') bgRender(); if(t==='edit') edRender();}
+window.addEventListener('hashchange',showTab);
+
+/* drop zones */
+$$('.drop').forEach(d=>{const inp=d.querySelector('input');
+  d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});
+  d.addEventListener('dragleave',()=>d.classList.remove('over'));
+  d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('over');if(e.dataTransfer.files[0]){inp._file=e.dataTransfer.files[0];inp.dispatchEvent(new Event('change'))}});
+});
+function pick(inp){const f=inp._file||inp.files[0];inp._file=null;return f}
+function segInit(id,cb){const s=$('#'+id);s.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));cb&&cb(b.dataset.v)})}
+function segVal(id){return $('#'+id+' button.on').dataset.v}
+
+/* ---------- WORD -> PDF ---------- */
+let w2pFile=null;
+segInit('w2p-size');
+$('#w2p-file').addEventListener('change',async e=>{
+  const f=pick(e.target);if(!f)return;
+  if(!/\.docx$/i.test(f.name)){status('w2p','Please choose a .docx file. Old .doc files need to be re-saved as .docx first.','err');return}
+  w2pFile=f;$('#w2p-chip').textContent='📄 '+f.name;$('#w2p-chip').classList.remove('hidden');
+  status('w2p','Reading document…');$('#w2p-go').disabled=true;
+  try{
+    await loadScript(CDN.mammoth);
+    const r=await mammoth.convertToHtml({arrayBuffer:await f.arrayBuffer()});
+    $('#w2p-prev').innerHTML=r.value||'<p><em>(This document looks empty.)</em></p>';
+    $('#w2p-prev-box').classList.remove('hidden');
+    status('w2p','Preview ready. Click convert to get your PDF.','ok');$('#w2p-go').disabled=false;
+  }catch(err){status('w2p','Couldn’t read that file. Is it a valid Word document? ('+err.message+')','err')}
+});
+$('#w2p-go').addEventListener('click',async()=>{
+  const btn=$('#w2p-go');btn.disabled=true;status('w2p','Building PDF…');
+  try{
+    await loadScript(CDN.html2pdf);
+    const fmt=segVal('w2p-size');
+    const el=$('#w2p-prev');const prevMax=el.style.maxWidth;el.style.maxWidth='none';
+    el.style.width=fmt==='a4'?'180mm':'185.9mm';
+    const blob=await html2pdf().set({margin:[15,15,15,15],image:{type:'jpeg',quality:0.96},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:fmt,orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['img','tr','h1','h2','h3']}}).from(el).outputPdf('blob');
+    el.style.maxWidth=prevMax;el.style.width='';
+    const ok=await save(baseName(w2pFile.name)+'.pdf',blob);
+    status('w2p',ok?'Done! Your PDF is ready.':'PDF built. Click convert again to save it.','ok');
+  }catch(err){status('w2p','Something went wrong: '+err.message,'err')}
+  btn.disabled=false;
+});
+
+/* ---------- PDF -> WORD ---------- */
+let p2wFile=null;
+segInit('p2w-mode',v=>{$('#p2w-mode-hint').textContent=v==='text'?'Editable text: pulls out the words so you can edit them. Layout is simplified.':'Exact look: each page is placed as a picture, so it looks identical but the text can’t be edited. Good for scanned PDFs.'});
+$('#p2w-file').addEventListener('change',e=>{const f=pick(e.target);if(!f)return;
+  if(!/\.pdf$/i.test(f.name)&&f.type!=='application/pdf'){status('p2w','Please choose a PDF file.','err');return}
+  p2wFile=f;$('#p2w-chip').textContent='📕 '+f.name;$('#p2w-chip').classList.remove('hidden');$('#p2w-go').disabled=false;status('p2w','Ready to convert.')});
+async function loadPdfjs(){await loadScript(CDN.pdfjs);await loadScript(CDN.pdfworker);pdfjsLib.GlobalWorkerOptions.workerSrc=CDN.pdfworker;}
+function pageLines(items,vh){
+  const rows=[];
+  items.filter(i=>i.str!==undefined).forEach(it=>{
+    const x=it.transform[4],y=it.transform[5],h=Math.abs(it.transform[3])||it.height||10;
+    let row=rows.find(r=>Math.abs(r.y-y)<h*0.5);
+    if(!row){row={y,h,items:[]};rows.push(row)}
+    row.items.push({x,w:it.width,str:it.str,h,font:it.fontName});row.h=Math.max(row.h,h);
+  });
+  rows.sort((a,b)=>b.y-a.y);
+  rows.forEach(r=>{r.items.sort((a,b)=>a.x-b.x);let t='',end=null;
+    r.items.forEach(i=>{if(end!==null&&i.x-end>i.h*0.25&&!t.endsWith(' ')&&!i.str.startsWith(' '))t+=' ';t+=i.str;end=i.x+i.w});
+    r.text=t.replace(/\s+$/,'');r.x=r.items[0]?r.items[0].x:0;r.font=r.items[0]&&r.items[0].font});
+  return rows.filter(r=>r.text.trim()!=='');
+}
+$('#p2w-go').addEventListener('click',async()=>{
+  const btn=$('#p2w-go');btn.disabled=true;
+  try{
+    status('p2w','Loading converter…');
+    await Promise.all([loadPdfjs(),loadScript(CDN.docx)]);
+    const D=window.docx;const mode=segVal('p2w-mode');
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await p2wFile.arrayBuffer())}).promise;
+    const children=[];let emptyPages=0;
+    for(let p=1;p<=pdf.numPages;p++){
+      status('p2w',`Reading page ${p} of ${pdf.numPages}…`);
+      const page=await pdf.getPage(p);const vp=page.getViewport({scale:1});
+      let usedImage=false;
+      if(mode==='text'){
+        const tc=await page.getTextContent();
+        const styles=tc.styles||{};
+        const lines=pageLines(tc.items,vp.height);
+        if(lines.length===0){emptyPages++;usedImage=true}
+        else{
+          const sizes=lines.map(l=>l.h).sort((a,b)=>a-b);const body=sizes[Math.floor(sizes.length/2)]||11;
+          const left=Math.min(...lines.map(l=>l.x));
+          let para=null;
+          const flush=()=>{if(!para)return;const bold=para.big;
+            children.push(new D.Paragraph({spacing:{after:para.big?120:100},indent:para.indent?{left:Math.round(para.indent*20)}:undefined,
+              children:[new D.TextRun({text:para.text,size:Math.max(16,Math.round(para.h*2)),bold})]}));para=null};
+          lines.forEach((l,i)=>{
+            const prev=lines[i-1];const gap=prev?prev.y-l.y:0;
+            const big=l.h>body*1.18;const indent=Math.max(0,l.x-left);
+            const fam=(styles[l.font]&&styles[l.font].fontFamily)||'';
+            const newPara=!para||gap>Math.max(prev.h,l.h)*1.65||big!==para.big||Math.abs(l.h-para.h)>1.5||/^[•\-●▪*]\s|^\d+[.)]\s/.test(l.text);
+            if(newPara){flush();para={text:l.text,h:l.h,big,indent:indent>12?indent:0}}
+            else{para.text+=(para.text.endsWith('-')?'':' ')+l.text.trim();if(para.text.endsWith('--'))para.text=para.text.slice(0,-1)}
+          });
+          flush();
+        }
+      }
+      if(mode==='image'||usedImage){
+        const scale=2;const v2=page.getViewport({scale});const c=document.createElement('canvas');c.width=v2.width;c.height=v2.height;
+        await page.render({canvasContext:c.getContext('2d'),viewport:v2}).promise;
+        const blob=await canvasBlob(c,'image/jpeg',0.9);const buf=await blob.arrayBuffer();
+        const maxW=624,maxH=860;let w=maxW,h=w*vp.height/vp.width;if(h>maxH){h=maxH;w=h*vp.width/vp.height}
+        children.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:buf,transformation:{width:Math.round(w),height:Math.round(h)}})]}));
+      }
+      if(p<pdf.numPages) children.push(new D.Paragraph({children:[new D.PageBreak()]}));
+    }
+    status('p2w','Building Word file…');
+    const doc=new D.Document({styles:{default:{document:{run:{font:'Calibri'}}}},sections:[{properties:{page:{margin:{top:1000,bottom:1000,left:1000,right:1000}}},children}]});
+    const blob=await D.Packer.toBlob(doc);
+    const ok=await save(baseName(p2wFile.name)+'.docx',blob);
+    let msg=ok?'Done! Your Word file is ready.':'Word file built. Click convert again to save it.';
+    if(mode==='text'&&emptyPages) msg+=` ${emptyPages} page(s) had no readable text (probably scanned), so they were added as pictures.`;
+    status('p2w',msg,'ok');
+  }catch(err){status('p2w',(/password/i.test(err.message)?'This PDF is password-protected. Remove the password and try again.':'Something went wrong: '+err.message),'err')}
+  btn.disabled=false;
+});
+
+/* ---------- SCAN ---------- */
+const scan={src:null,corners:null,step:'corners',filter:'doc',pages:[],result:null,drag:-1};
+const sc=$('#scan-canvas'),sx=sc.getContext('2d');
+async function scanLoad(f){
+  try{status('scan','Loading photo…');scan.src=await loadImageFile(f,2400);scanResetCorners();scan.step='corners';
+    $$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));
+    $('#scan-editor').classList.remove('hidden');$('[data-drop=scan]').classList.add('hidden');status('scan','');scanDraw();}
+  catch(err){status('scan',err.message,'err')}
+}
+$('#scan-file').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
+$('#scan-file2').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
+function scanResetCorners(){const w=scan.src.width,h=scan.src.height,m=0.06;
+  scan.corners=[[w*m,h*m],[w*(1-m),h*m],[w*(1-m),h*(1-m)],[w*m,h*(1-m)]];}
+segInit('scan-step',v=>{scan.step=v;if(v==='result')scanBuild();scanDraw()});
+segInit('scan-filter',v=>{scan.filter=v;if(scan.step==='result'){scanBuild();scanDraw()}});
+$('#scan-reset').onclick=()=>{if(!scan.src)return;scanResetCorners();scan.step='corners';$$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));scanDraw()};
+function rotateCanvas(c,dir){const o=document.createElement('canvas');o.width=c.height;o.height=c.width;const x=o.getContext('2d');x.translate(o.width/2,o.height/2);x.rotate(dir*Math.PI/2);x.drawImage(c,-c.width/2,-c.height/2);return o}
+function scanRotate(dir){if(!scan.src)return;
+  const W=scan.src.width,H=scan.src.height;
+  scan.src=rotateCanvas(scan.src,dir);
+  // rotate corner points too, keep TL,TR,BR,BL order
+  let pts=scan.corners.map(([x,y])=>dir>0?[H-y,x]:[y,W-x]);
+  pts=dir>0?[pts[3],pts[0],pts[1],pts[2]]:[pts[1],pts[2],pts[3],pts[0]];
+  scan.corners=pts; if(scan.step==='result')scanBuild(); scanDraw();}
+$('#scan-rotl').onclick=()=>scanRotate(-1);$('#scan-rotr').onclick=()=>scanRotate(1);
+
+function scanDraw(){
+  if(!scan.src)return;
+  if(scan.step==='result'&&scan.result){sc.width=scan.result.width;sc.height=scan.result.height;sx.drawImage(scan.result,0,0);$('#scan-hint').textContent='This is your scan. Add it as a page, or download it.';return}
+  $('#scan-hint').textContent='Drag the blue dots onto the corners of the page, then tap “2. Result”.';
+  sc.width=scan.src.width;sc.height=scan.src.height;sx.drawImage(scan.src,0,0);
+  const c=scan.corners,r=Math.max(10,sc.width/70);
+  sx.save();sx.fillStyle='rgba(0,0,0,.35)';sx.beginPath();sx.rect(0,0,sc.width,sc.height);sx.moveTo(...c[0]);sx.lineTo(...c[3]);sx.lineTo(...c[2]);sx.lineTo(...c[1]);sx.closePath();sx.fill('evenodd');
+  sx.strokeStyle='#3b5bfd';sx.lineWidth=Math.max(2,sc.width/400);sx.beginPath();sx.moveTo(...c[0]);c.slice(1).forEach(p=>sx.lineTo(...p));sx.closePath();sx.stroke();
+  c.forEach(p=>{sx.beginPath();sx.arc(p[0],p[1],r,0,7);sx.fillStyle='rgba(59,91,253,.9)';sx.fill();sx.lineWidth=r/4;sx.strokeStyle='#fff';sx.stroke()});
+  sx.restore();
+}
+function canvasPt(cv,e){const b=cv.getBoundingClientRect();return [(e.clientX-b.left)*cv.width/b.width,(e.clientY-b.top)*cv.height/b.height]}
+sc.addEventListener('pointerdown',e=>{if(scan.step!=='corners'||!scan.src)return;const p=canvasPt(sc,e);const b=sc.getBoundingClientRect();const tol=40*sc.width/b.width;
+  let best=-1,bd=1e9;scan.corners.forEach((c,i)=>{const d=Math.hypot(c[0]-p[0],c[1]-p[1]);if(d<bd){bd=d;best=i}});
+  if(bd<tol*1.5){scan.drag=best;sc.setPointerCapture(e.pointerId)}});
+sc.addEventListener('pointermove',e=>{if(scan.drag<0)return;const p=canvasPt(sc,e);scan.corners[scan.drag]=[Math.max(0,Math.min(sc.width,p[0])),Math.max(0,Math.min(sc.height,p[1]))];scanDraw()});
+sc.addEventListener('pointerup',()=>scan.drag=-1);sc.addEventListener('pointercancel',()=>scan.drag=-1);
+
+function homography(src,dst){ // maps dst->src; src,dst arrays of 4 [x,y]
+  const A=[],b=[];
+  for(let i=0;i<4;i++){const [x,y]=dst[i],[u,v]=src[i];
+    A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v);}
+  // gaussian elimination
+  for(let i=0;i<8;i++){let m=i;for(let k=i+1;k<8;k++)if(Math.abs(A[k][i])>Math.abs(A[m][i]))m=k;[A[i],A[m]]=[A[m],A[i]];[b[i],b[m]]=[b[m],b[i]];
+    for(let k=i+1;k<8;k++){const f=A[k][i]/A[i][i];for(let j=i;j<8;j++)A[k][j]-=f*A[i][j];b[k]-=f*b[i]}}
+  const h=new Array(8);for(let i=7;i>=0;i--){let s=b[i];for(let j=i+1;j<8;j++)s-=A[i][j]*h[j];h[i]=s/A[i][i]}
+  return [...h,1];
+}
+function scanBuild(){
+  if(!scan.src)return;const c=scan.corners;const d=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  let W=Math.max(d(c[0],c[1]),d(c[3],c[2])),H=Math.max(d(c[0],c[3]),d(c[1],c[2]));
+  const s=Math.min(1,2200/Math.max(W,H));W=Math.round(W*s);H=Math.round(H*s);
+  const h=homography(c,[[0,0],[W,0],[W,H],[0,H]]);
+  const S=scan.src.getContext('2d').getImageData(0,0,scan.src.width,scan.src.height),sd=S.data,sw=S.width,sh=S.height;
+  const out=document.createElement('canvas');out.width=W;out.height=H;const ox=out.getContext('2d');const O=ox.createImageData(W,H),od=O.data;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const z=h[6]*x+h[7]*y+1;let u=(h[0]*x+h[1]*y+h[2])/z,v=(h[3]*x+h[4]*y+h[5])/z;
+    if(u<0)u=0;if(v<0)v=0;if(u>sw-1.001)u=sw-1.001;if(v>sh-1.001)v=sh-1.001;
+    const x0=u|0,y0=v|0,fx=u-x0,fy=v-y0,i00=(y0*sw+x0)*4,i10=i00+4,i01=i00+sw*4,i11=i01+4,o=(y*W+x)*4;
+    for(let k=0;k<3;k++)od[o+k]=(sd[i00+k]*(1-fx)+sd[i10+k]*fx)*(1-fy)+(sd[i01+k]*(1-fx)+sd[i11+k]*fx)*fy;
+    od[o+3]=255;}
+  ox.putImageData(O,0,0);
+  scan.result=applyScanFilter(out,scan.filter);
+}
+function applyScanFilter(cv,f){
+  if(f==='none')return cv;
+  const W=cv.width,H=cv.height,x=cv.getContext('2d');const I=x.getImageData(0,0,W,H),d=I.data;
+  // estimate paper/background brightness with a heavy blur via downscale
+  const sm=document.createElement('canvas');const k=Math.max(8,Math.round(Math.max(W,H)/40));sm.width=Math.max(1,Math.round(W/k));sm.height=Math.max(1,Math.round(H/k));
+  const smx=sm.getContext('2d');smx.filter='blur(2px)';smx.drawImage(cv,0,0,sm.width,sm.height);
+  // dilate-ish: take brighter of blurred bg to ignore text
+  const bg=document.createElement('canvas');bg.width=W;bg.height=H;const bgx=bg.getContext('2d');bgx.imageSmoothingQuality='high';bgx.drawImage(sm,0,0,W,H);
+  const B=bgx.getImageData(0,0,W,H).data;
+  for(let i=0;i<d.length;i+=4){
+    if(f==='grey'){const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];const n=Math.min(255,g/Math.max(40,0.299*B[i]+0.587*B[i+1]+0.114*B[i+2])*255*1.02);d[i]=d[i+1]=d[i+2]=n;}
+    else if(f==='doc'){const g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];const bgl=Math.max(40,0.299*B[i]+0.587*B[i+1]+0.114*B[i+2]);let n=g/bgl;
+      n=n>0.86?1:n<0.55?0:(n-0.55)/0.31; n=Math.pow(n,1.6)*255; d[i]=d[i+1]=d[i+2]=n;}
+    else{for(let c=0;c<3;c++){let n=d[i+c]/Math.max(40,B[i+c])*255*1.03;n=(n-128)*1.12+128;d[i+c]=n<0?0:n>255?255:n}}
+  }
+  x.putImageData(I,0,0);return cv;
+}
+function scanRenderPages(){const box=$('#scan-pages');box.innerHTML='';
+  scan.pages.forEach((p,i)=>{const d=document.createElement('div');d.className='pg';d.innerHTML=`<img src="${p.thumb}"><i>${i+1}</i><button title="Remove">×</button>`;d.querySelector('button').onclick=()=>{scan.pages.splice(i,1);scanRenderPages()};box.appendChild(d)});
+  $('#scan-pdf').disabled=!scan.pages.length;$('#scan-pdf').textContent=scan.pages.length?`Download PDF (${scan.pages.length} page${scan.pages.length>1?'s':''})`:'Download PDF';}
+function ensureResult(){if(!scan.src)return null;if(scan.step!=='result'){scan.step='result';$$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='result'))}scanBuild();scanDraw();return scan.result}
+$('#scan-add').onclick=()=>{const r=ensureResult();if(!r)return;const t=document.createElement('canvas');const s=150/r.width;t.width=150;t.height=Math.round(r.height*s);t.getContext('2d').drawImage(r,0,0,t.width,t.height);
+  scan.pages.push({w:r.width,h:r.height,data:r.toDataURL('image/jpeg',0.88),thumb:t.toDataURL('image/jpeg',0.7)});scanRenderPages();toast('Page '+scan.pages.length+' added. Load the next photo or download the PDF.')};
+$('#scan-jpg').onclick=async()=>{const r=ensureResult();if(!r)return;save('scan.jpg',await canvasBlob(r,'image/jpeg',0.92))};
+$('#scan-pdf').onclick=async()=>{
+  if(!scan.pages.length)return;status('scan','Making PDF…');
+  try{await loadScript(CDN.jspdf);const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4'});
+    scan.pages.forEach((p,i)=>{if(i)pdf.addPage('a4');const pw=210,ph=297,m=8;let w=pw-2*m,h=w*p.h/p.w;if(h>ph-2*m){h=ph-2*m;w=h*p.w/p.h}
+      pdf.addImage(p.data,'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST')});
+    const ok=await save('scan.pdf',pdf.output('blob'));status('scan',ok?'PDF saved.':'','ok');
+  }catch(err){status('scan','Couldn’t make the PDF: '+err.message,'err')}
+};
+
+/* ---------- PASSPORT / BACKGROUND ---------- */
+const PPW=700,PPH=900,PXMM=20;            // 35 x 45 mm at 20 px/mm
+const CROWN_MM=4.5,HEAD_MM=32;            // UK: chin-to-crown 29-34 mm
+const bg={src:null,orig:null,mask:null,undo:[],tool:'move',color:'#e8e8e8',img:null,fg:null,fgData:null,painting:false,size:'pp',pv:{s:1,tx:0,ty:0},fitS:1};
+const bc=$('#bg-canvas'),bx=bc.getContext('2d');
+const AI={sess:null,p:null};
+function aiURL(f){return new URL('ai/'+f,location.href).href}
+function bgProg(msg,frac){const p=$('#bg-prog');if(msg===null){p.classList.add('hidden');return}p.classList.remove('hidden');$('#bg-prog-t').textContent=msg;if(frac!=null)$('#bg-bar').style.width=Math.round(frac*100)+'%'}
+function aiLoad(prog=bgProg){
+  if(AI.p) return AI.p;
+  AI.p=(async()=>{
+    prog('Loading AI engine…',0.02);
+    await loadScript(aiURL('ort.wasm.min.js'));
+    ort.env.wasm.wasmPaths=aiURL('');ort.env.wasm.numThreads=1;ort.env.wasm.proxy=false;
+    const mr=await fetch(aiURL('model.json'));if(!mr.ok)throw new Error('model list not found');
+    const man=await mr.json();let got=0;
+    const parts=await Promise.all(man.chunks.map(async c=>{
+      const r=await fetch(aiURL(c.file));if(!r.ok)throw new Error('model download failed ('+r.status+')');
+      const t=await r.text(),bin=atob(t.trim()),b=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);if(b.length!==c.size)throw new Error('model file damaged');got+=b.length;
+      prog(`Downloading AI model… ${Math.round(got/1e6)} of ${Math.round(man.size/1e6)} MB (first time only)`,0.04+0.8*got/man.size);return b}));
+    const buf=new Uint8Array(man.size);let o=0;for(const p of parts){buf.set(p,o);o+=p.length}
+    prog('Starting AI…',0.86);
+    AI.sess=await ort.InferenceSession.create(buf.buffer,{executionProviders:['wasm'],graphOptimizationLevel:'all'});
+  })();
+  AI.p.catch(()=>{AI.p=null});
+  return AI.p;
+}
+async function aiMaskCanvas(src,prog=bgProg){
+  await aiLoad(prog);
+  prog('Finding the subject… (about 5–20 seconds)',0.9);
+  await new Promise(r=>setTimeout(r,60));
+  const N=1024,W=src.width,H=src.height;
+  const t=document.createElement('canvas');t.width=t.height=N;const tx=t.getContext('2d');tx.drawImage(src,0,0,N,N);
+  const d=tx.getImageData(0,0,N,N).data,S=N*N,f=new Float32Array(3*S);
+  for(let i=0,j=0;j<S;i+=4,j++){f[j]=(d[i]-128)/256;f[j+S]=(d[i+1]-128)/256;f[j+2*S]=(d[i+2]-128)/256}
+  const out=await AI.sess.run({[AI.sess.inputNames[0]]:new ort.Tensor('float32',f,[1,3,N,N])});
+  const o=out[AI.sess.outputNames[0]].data;
+  const am=tx.createImageData(N,N);
+  for(let j=0;j<S;j++){let a=o[j]*255;a=(a-18)*255/(235-18);am.data[j*4]=am.data[j*4+1]=am.data[j*4+2]=255;am.data[j*4+3]=a<0?0:a>255?255:a}
+  tx.putImageData(am,0,0);
+  const big=document.createElement('canvas');big.width=W;big.height=H;const bgx=big.getContext('2d');bgx.imageSmoothingQuality='high';bgx.drawImage(t,0,0,W,H);
+  prog(null);return big;
+}
+async function aiCutout(){
+  const big=await aiMaskCanvas(bg.src,bgProg);const W=bg.src.width,H=bg.src.height;
+  const A=big.getContext('2d').getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)bg.mask[i]=A[i*4+3];
+}
+async function bgOpen(f){
+  try{
+    status('bg','');const c=await loadImageFile(f,1600);bg.src=c;const W=c.width,H=c.height;
+    bg.orig=c.getContext('2d').getImageData(0,0,W,H);bg.mask=new Uint8ClampedArray(W*H).fill(255);bg.undo=[];
+    bg.fg=document.createElement('canvas');bg.fg.width=W;bg.fg.height=H;bg.fgData=new ImageData(new Uint8ClampedArray(bg.orig.data),W,H);
+    $('#bg-editor').classList.remove('hidden');$('[data-drop=bg]').classList.add('hidden');
+    bgSyncFg();bgFitWhole();bgRender();
+  }catch(err){status('bg',err.message,'err');return}
+  try{await aiCutout();bgSyncFg();autoFit();bgRender();status('bg','Background removed. Check the head sits between the guide lines, then download.','ok')}
+  catch(err){bgProg(null);console.error(err);
+    status('bg','The automatic cut-out couldn’t run in this browser ('+err.message+'). You can still remove the background by hand: pick “Tap” and tap the background.','err');
+    setTool('wand')}
+}
+$('#bg-file').addEventListener('change',e=>{const f=pick(e.target);if(f)bgOpen(f)});
+$('#bg-file2').addEventListener('change',e=>{const f=pick(e.target);if(f)bgOpen(f)});
+$('#bg-ai-again').onclick=async()=>{if(!bg.src)return;pushUndo();try{await aiCutout();bgSyncFg();bgRender()}catch(err){bgProg(null);status('bg','AI cut-out failed: '+err.message,'err')}};
+
+function setTool(v){bg.tool=v;$$('#bg-tool button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  $('#bg-tol-box').classList.toggle('hidden',v!=='wand');$('#bg-brush-box').classList.toggle('hidden',!(v==='erase'||v==='restore'));bgHint()}
+segInit('bg-tool',setTool);
+function bgHint(){const v=bg.tool,pp=bg.size==='pp';
+  $('#bg-hint').textContent=v==='move'?(pp?'Drag the photo to move it, and use the zoom slider or mouse wheel. Top of head on the upper line, chin between the lower two.':'Pick Erase or Restore to tidy edges.'):
+  v==='erase'?'Paint over any leftover background to remove it.':v==='restore'?'Paint over parts of the person that were cut off by mistake.':'Tap a background area to remove everything of a similar colour.'}
+segInit('bg-size',v=>{bg.size=v;$('#bg-pp-box').classList.toggle('hidden',v!=='pp');$('#bg-dl-pp').classList.toggle('hidden',v!=='pp');$('#bg-dl-orig').classList.toggle('hidden',v==='pp');
+  $('#bg-dl-hint').classList.toggle('hidden',v!=='pp');bgHint();bgRender()});
+$('#bg-guides').onchange=bgRender;
+$('#bg-tol').oninput=e=>$('#bg-tol-v').textContent=e.target.value;
+$('#bg-brush').oninput=e=>$('#bg-brush-v').textContent=e.target.value;
+$('#bg-sw').addEventListener('click',e=>{const b=e.target.closest('.sw');if(!b)return;$$('#bg-sw .sw').forEach(x=>x.classList.toggle('on',x===b));bg.color=b.dataset.c;bg.img=null;bgRender()});
+$('#bg-custom').addEventListener('input',e=>{$$('#bg-sw .sw').forEach(x=>x.classList.remove('on'));bg.color=e.target.value;bg.img=null;bgRender()});
+$('#bg-img').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{bg.img=await loadImageFile(f,2400);$$('#bg-sw .sw').forEach(x=>x.classList.remove('on'));bgRender()}catch(err){toast(err.message)}e.target.value=''});
+function pushUndo(){bg.undo.push(bg.mask.slice());if(bg.undo.length>25)bg.undo.shift()}
+$('#bg-undo').onclick=()=>{if(!bg.undo.length)return;bg.mask=bg.undo.pop();bgSyncFg();bgRender()};
+
+function bgSyncFg(x0=0,y0=0,x1,y1){
+  if(!bg.src)return;const W=bg.src.width,H=bg.src.height;x1=x1??W;y1=y1??H;
+  const m=bg.mask,d=bg.fgData.data;
+  for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const i=y*W+x;d[i*4+3]=m[i]}
+  bg.fg.getContext('2d').putImageData(bg.fgData,0,0,x0,y0,x1-x0,y1-y0);
+}
+/* ---- framing ---- */
+function bgFitWhole(){const W=bg.src.width,H=bg.src.height;const s=Math.max(PPW/W,PPH/H);bg.pv={s,tx:(PPW-W*s)/2,ty:(PPH-H*s)/2};bg.fitS=s;$('#bg-zoom').value=0}
+function autoFit(){
+  const W=bg.src.width,H=bg.src.height,m=bg.mask;const ext=new Float32Array(H),cen=new Float32Array(H),thr=Math.max(3,W*0.01);
+  for(let y=0;y<H;y++){let mn=-1,mx=-1,n=0;for(let x=0;x<W;x++){if(m[y*W+x]>128){n++;if(mn<0)mn=x;mx=x}}ext[y]=n>thr?mx-mn:0;cen[y]=n>thr?(mn+mx)/2:-1}
+  let crown=-1;for(let y=0;y<H;y++)if(ext[y]>0){crown=y;break}
+  if(crown<0){bgFitWhole();return false}
+  let maxW=0,y=crown;
+  for(;y<H;y++){maxW=Math.max(maxW,ext[y]);if(y-crown>maxW*0.95&&maxW>0)break}
+  let neck=-1,minW=1e9,shoulders=false;
+  for(;y<Math.min(H,crown+maxW*2.4);y++){if(ext[y]>0&&ext[y]<minW){minW=ext[y];neck=y}if(ext[y]>maxW*1.35){shoulders=true;break}}
+  let headH=1.3*maxW;
+  if(shoulders&&neck>0){let chin=neck;for(let yy=crown+Math.round(maxW*0.95);yy<=neck;yy++){if(ext[yy]>0&&ext[yy]<=minW*1.15){chin=yy;break}}
+    const h=chin+0.08*maxW-crown;if(h>maxW*1.05&&h<maxW*1.6)headH=h}
+  let sx=0,sn=0;for(let yy=crown;yy<Math.min(H,crown+headH*0.8);yy++)if(cen[yy]>=0){sx+=cen[yy];sn++}
+  const cx=sn?sx/sn:W/2;
+  const s=HEAD_MM*PXMM/headH;
+  bg.pv={s,tx:PPW/2-cx*s,ty:CROWN_MM*PXMM-crown*s};bg.fitS=s;$('#bg-zoom').value=0;return true;
+}
+$('#bg-autofit').onclick=()=>{if(!bg.src)return;if(!autoFit())toast('Couldn’t find a head in the cut-out.');bgRender()};
+$('#bg-zoom').addEventListener('input',e=>{if(!bg.src)return;zoomTo(bg.fitS*Math.pow(2,e.target.value/100),PPW/2,PPH/2)});
+function zoomTo(ns,cx,cy){const v=bg.pv;const sx=(cx-v.tx)/v.s,sy=(cy-v.ty)/v.s;v.s=ns;v.tx=cx-sx*ns;v.ty=cy-sy*ns;bgRender()}
+bc.addEventListener('wheel',e=>{if(!bg.src||bg.size!=='pp')return;e.preventDefault();const p=canvasPt(bc,e);const ns=bg.pv.s*Math.pow(1.0015,-e.deltaY);
+  zoomTo(ns,p[0],p[1]);$('#bg-zoom').value=Math.max(-300,Math.min(300,Math.round(100*Math.log2(ns/bg.fitS))))},{passive:false});
+/* ---- drawing ---- */
+function bgView(){return bg.size==='pp'?bg.pv:{s:1,tx:0,ty:0}}
+function bgCompose(ctx,W,H,opaque,v){
+  ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,W,H);
+  if(bg.img){const s=Math.max(W/bg.img.width,H/bg.img.height),w=bg.img.width*s,h=bg.img.height*s;ctx.drawImage(bg.img,(W-w)/2,(H-h)/2,w,h)}
+  else if(bg.color!=='transparent'){ctx.fillStyle=bg.color;ctx.fillRect(0,0,W,H)}
+  else if(opaque){ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H)}
+  ctx.setTransform(v.s,0,0,v.s,v.tx,v.ty);ctx.imageSmoothingQuality='high';ctx.drawImage(bg.fg,0,0);ctx.setTransform(1,0,0,1,0,0);
+}
+function drawGuides(ctx){
+  ctx.save();ctx.strokeStyle='rgba(59,91,253,.85)';ctx.fillStyle='rgba(59,91,253,.9)';ctx.lineWidth=2;ctx.setLineDash([10,8]);ctx.font='600 18px -apple-system,system-ui,sans-serif';
+  const line=(y,label)=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(PPW,y);ctx.stroke();ctx.fillText(label,10,y-6)};
+  line(CROWN_MM*PXMM,'Top of head');line((CROWN_MM+29)*PXMM,'Chin: between these lines');line((CROWN_MM+34)*PXMM,'');
+  ctx.setLineDash([4,8]);ctx.beginPath();ctx.moveTo(PPW/2,0);ctx.lineTo(PPW/2,PPH);ctx.stroke();ctx.restore();
+}
+function bgRender(){
+  if(!bg.src)return;
+  if(bg.size==='pp'){if(bc.width!==PPW||bc.height!==PPH){bc.width=PPW;bc.height=PPH}}
+  else if(bc.width!==bg.src.width||bc.height!==bg.src.height){bc.width=bg.src.width;bc.height=bg.src.height}
+  bgCompose(bx,bc.width,bc.height,false,bgView());
+  if(bg.size==='pp'&&$('#bg-guides').checked)drawGuides(bx);
+}
+/* ---- tools ---- */
+function wand(px,py){
+  const W=bg.src.width,H=bg.src.height,d=bg.orig.data;const tol=+$('#bg-tol').value;const contig=$('#bg-contig').checked;
+  const si=(py*W+px)*4;const r0=d[si],g0=d[si+1],b0=d[si+2];
+  const dist=i=>{const dr=d[i]-r0,dg=d[i+1]-g0,db=d[i+2]-b0;return Math.sqrt(dr*dr*0.3+dg*dg*0.59+db*db*0.11)*1.7};
+  const hard=tol*0.75,m=bg.mask;
+  const setA=(p,dv)=>{const a=dv<=hard?0:Math.round((dv-hard)/(tol-hard)*255);if(a<m[p])m[p]=a};
+  if(!contig){for(let p=0;p<W*H;p++){const dv=dist(p*4);if(dv<tol)setA(p,dv)}return}
+  const seen=new Uint8Array(W*H);const st=[py*W+px];seen[py*W+px]=1;
+  while(st.length){const p=st.pop();const dv=dist(p*4);if(dv>=tol)continue;setA(p,dv);
+    const x=p%W,y=(p/W)|0;
+    if(x>0&&!seen[p-1]){seen[p-1]=1;st.push(p-1)}if(x<W-1&&!seen[p+1]){seen[p+1]=1;st.push(p+1)}
+    if(y>0&&!seen[p-W]){seen[p-W]=1;st.push(p-W)}if(y<H-1&&!seen[p+W]){seen[p+W]=1;st.push(p+W)}}
+}
+function toSrc(p){const v=bgView();return [(p[0]-v.tx)/v.s,(p[1]-v.ty)/v.s]}
+function brushAt(p){
+  const W=bg.src.width,H=bg.src.height,b=bc.getBoundingClientRect();const r=(+$('#bg-brush').value/2)*(bc.width/b.width)/bgView().s;const val=bg.tool==='erase'?0:255;
+  const x0=Math.max(0,Math.floor(p[0]-r)),x1=Math.min(W,Math.ceil(p[0]+r)),y0=Math.max(0,Math.floor(p[1]-r)),y1=Math.min(H,Math.ceil(p[1]+r));
+  if(x1<=x0||y1<=y0)return;
+  for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const dd=Math.hypot(x-p[0],y-p[1]);if(dd<=r){const i=y*W+x;
+    const soft=dd>r*0.8?(1-(dd-r*0.8)/(r*0.2)):1;
+    if(val===0)bg.mask[i]=Math.min(bg.mask[i],Math.round(255*(1-soft)));else bg.mask[i]=Math.max(bg.mask[i],Math.round(255*soft))}}
+  bgSyncFg(x0,y0,x1,y1);
+}
+let lastPt=null,panning=null,rafPending=false;
+function bgRenderSoon(){if(rafPending)return;rafPending=true;requestAnimationFrame(()=>{rafPending=false;bgRender()})}
+bc.addEventListener('pointerdown',e=>{if(!bg.src)return;const vp=canvasPt(bc,e);
+  if(bg.tool==='move'){if(bg.size==='pp'){panning={x:vp[0],y:vp[1],tx:bg.pv.tx,ty:bg.pv.ty};bc.setPointerCapture(e.pointerId)}return}
+  const p=toSrc(vp);
+  if(bg.tool==='wand'){const px=Math.floor(p[0]),py=Math.floor(p[1]);if(px<0||py<0||px>=bg.src.width||py>=bg.src.height)return;
+    pushUndo();status('bg','Removing…');setTimeout(()=>{wand(px,py);bgSyncFg();bgRender();status('bg','')},10);return}
+  pushUndo();bg.painting=true;bc.setPointerCapture(e.pointerId);lastPt=p;brushAt(p);bgRenderSoon()});
+bc.addEventListener('pointermove',e=>{
+  if(panning){const vp=canvasPt(bc,e);bg.pv.tx=panning.tx+vp[0]-panning.x;bg.pv.ty=panning.ty+vp[1]-panning.y;bgRenderSoon();return}
+  if(!bg.painting)return;const p=toSrc(canvasPt(bc,e));
+  const steps=Math.ceil(Math.hypot(p[0]-lastPt[0],p[1]-lastPt[1])/4)||1;for(let i=1;i<=steps;i++)brushAt([lastPt[0]+(p[0]-lastPt[0])*i/steps,lastPt[1]+(p[1]-lastPt[1])*i/steps]);lastPt=p;bgRenderSoon()});
+const endPaint=()=>{panning=null;if(bg.painting){bg.painting=false;bgRender()}};
+bc.addEventListener('pointerup',endPaint);bc.addEventListener('pointercancel',endPaint);
+/* ---- export ---- */
+function ppCanvas(w,h,opaque){const c=document.createElement('canvas');c.width=w;c.height=h;const k=w/PPW,v=bg.pv;bgCompose(c.getContext('2d'),w,h,opaque,{s:v.s*k,tx:v.tx*k,ty:v.ty*k});return c}
+$('#bg-dl-photo').onclick=async()=>{if(!bg.src)return;save('passport-photo-35x45mm.jpg',await canvasBlob(ppCanvas(827,1063,true),'image/jpeg',0.95))};
+$('#bg-dl-sheet').onclick=async()=>{if(!bg.src)return;
+  const S=document.createElement('canvas');S.width=1800;S.height=1200;const x=S.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,1800,1200);
+  const pw=413,ph=531,ph1=ppCanvas(pw,ph,true),gx=(1800-4*pw)/5,gy=(1200-2*ph)/3;
+  x.strokeStyle='#bdbdbd';x.lineWidth=1;
+  for(let r=0;r<2;r++)for(let c=0;c<4;c++){const px=Math.round(gx+c*(pw+gx)),py=Math.round(gy+r*(ph+gy));x.drawImage(ph1,px,py);x.strokeRect(px-0.5,py-0.5,pw+1,ph+1)}
+  save('passport-photos-6x4-print.jpg',await canvasBlob(S,'image/jpeg',0.95))};
+async function bgExport(type){if(!bg.src)return;const c=document.createElement('canvas');c.width=bg.src.width;c.height=bg.src.height;bgCompose(c.getContext('2d'),c.width,c.height,type==='jpg',{s:1,tx:0,ty:0});
+  save('photo-new-background.'+type,await canvasBlob(c,type==='jpg'?'image/jpeg':'image/png',0.94))}
+$('#bg-png').onclick=()=>bgExport('png');$('#bg-jpg').onclick=()=>bgExport('jpg');
+setTool('move');
+
+/* ---------- PHOTO EDITOR ---------- */
+const ED_SLIDERS=[
+  ['exposure','Brightness',-100,100],['contrast','Contrast',-100,100],['saturation','Colour',-100,100],
+  ['warmth','Warmth',-100,100],['tint','Tint',-100,100],['fade','Matte fade',0,100],
+  ['glow','Soft glow',0,100],['vignette','Vignette',0,100],['grain','Film grain',0,100]];
+const ED_DEFAULT={exposure:0,contrast:0,saturation:0,warmth:0,tint:0,fade:0,glow:0,vignette:0,grain:0,bgMode:'keep',bgBlur:50,backdrop:'#8a8f98'};
+const ED_PRESETS={
+  'Original':{},
+  'Studio portrait':{exposure:8,contrast:18,saturation:-6,warmth:4,glow:12,vignette:28,bgMode:'studio',backdrop:'#8a8f98'},
+  'Pro headshot':{exposure:10,contrast:14,saturation:-4,warmth:3,glow:10,vignette:12,bgMode:'blur',bgBlur:55},
+  'Golden hour':{exposure:6,contrast:10,saturation:18,warmth:55,tint:6,glow:35,vignette:25},
+  'Classic B&W':{exposure:4,contrast:38,saturation:-100,vignette:30,grain:18},
+  'Moody':{exposure:-18,contrast:30,saturation:-28,warmth:-12,fade:12,vignette:55},
+  'Bright & airy':{exposure:28,contrast:-12,saturation:-8,warmth:6,fade:14,glow:22},
+  'Vintage film':{exposure:4,contrast:-8,saturation:-22,warmth:28,tint:10,fade:30,vignette:30,grain:40},
+  'Cool editorial':{exposure:2,contrast:24,saturation:-12,warmth:-30,tint:-6,vignette:22},
+  'Vivid':{exposure:6,contrast:22,saturation:45,warmth:6,vignette:10},
+  'Dreamy':{exposure:14,contrast:-16,saturation:-6,warmth:12,tint:8,fade:18,glow:55,bgMode:'blur',bgBlur:70}
+};
+const ed={src:null,prev:null,mask:null,maskP:null,set:{...ED_DEFAULT},before:false,name:'photo',noise:null};
+const ec=$('#ed-canvas');
+// build sliders + presets
+$('#ed-sliders').innerHTML=ED_SLIDERS.map(([k,l,mn,mx])=>`<div class="sl"><div class="lab">${l}<span id="ed-v-${k}">0</span></div><input type="range" id="ed-${k}" min="${mn}" max="${mx}" value="0"></div>`).join('');
+ED_SLIDERS.forEach(([k])=>$('#ed-'+k).addEventListener('input',e=>{ed.set[k]=+e.target.value;$('#ed-v-'+k).textContent=e.target.value;$$('#ed-presets button').forEach(b=>b.classList.remove('on'));edRenderSoon()}));
+$('#ed-presets').innerHTML=Object.keys(ED_PRESETS).map(n=>`<button>${n}</button>`).join('');
+$('#ed-presets').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#ed-presets button').forEach(x=>x.classList.toggle('on',x===b));edApply({...ED_DEFAULT,...ED_PRESETS[b.textContent]})});
+$('#ed-bgBlur').addEventListener('input',e=>{ed.set.bgBlur=+e.target.value;edRenderSoon()});
+segInit('ed-bgmode',v=>edApply({...ed.set,bgMode:v}));
+$('#ed-bd').addEventListener('click',e=>{const b=e.target.closest('.sw');if(!b)return;edApply({...ed.set,backdrop:b.dataset.c})});
+$('#ed-bd-custom').addEventListener('input',e=>edApply({...ed.set,backdrop:e.target.value}));
+$('#ed-reset').onclick=()=>{$$('#ed-presets button').forEach(x=>x.classList.remove('on'));edApply({...ED_DEFAULT})};
+const before=v=>{ed.before=v;edRender()};
+$('#ed-before').addEventListener('pointerdown',()=>before(true));['pointerup','pointerleave','pointercancel'].forEach(t=>$('#ed-before').addEventListener(t,()=>ed.before&&before(false)));
+function edProg(msg,frac){const p=$('#ed-prog');if(msg===null){p.classList.add('hidden');return}p.classList.remove('hidden');$('#ed-prog-t').textContent=msg;if(frac!=null)$('#ed-bar').style.width=Math.round(frac*100)+'%'}
+
+function edSyncUI(){const s=ed.set;
+  ED_SLIDERS.forEach(([k])=>{$('#ed-'+k).value=s[k];$('#ed-v-'+k).textContent=s[k]});
+  $('#ed-bgBlur').value=s.bgBlur;
+  $$('#ed-bgmode button').forEach(b=>b.classList.toggle('on',b.dataset.v===s.bgMode));
+  $('#ed-bgblur-box').classList.toggle('hidden',s.bgMode!=='blur');$('#ed-backdrop-box').classList.toggle('hidden',s.bgMode!=='studio');
+  $$('#ed-bd .sw').forEach(b=>b.classList.toggle('on',b.dataset.c.toLowerCase()===String(s.backdrop).toLowerCase()));
+}
+async function edApply(set){
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,Math.round(+v||0)));
+  const n={...ED_DEFAULT};
+  ED_SLIDERS.forEach(([k,,mn,mx])=>n[k]=clamp(set[k]??0,mn,mx));
+  n.bgMode=['keep','blur','studio'].includes(set.bgMode)?set.bgMode:'keep';n.bgBlur=clamp(set.bgBlur??50,0,100);
+  n.backdrop=/^#[0-9a-f]{6}$/i.test(set.backdrop||'')?set.backdrop:ED_DEFAULT.backdrop;
+  ed.set=n;edSyncUI();
+  if(n.bgMode!=='keep'&&ed.src&&!ed.mask){
+    try{ed.mask=await aiMaskCanvas(ed.src,edProg);edMakePreviewMask()}
+    catch(err){edProg(null);ed.set.bgMode='keep';edSyncUI();status('ed','The background effects need the AI cut-out, which couldn’t run here ('+err.message+').','err')}
+  }
+  edRender();
+}
+$('#ed-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+  try{ed.src=await loadImageFile(f,2400);ed.name=baseName(f.name);ed.mask=null;
+    const s=Math.min(1,1100/Math.max(ed.src.width,ed.src.height));ed.prev=document.createElement('canvas');ed.prev.width=Math.round(ed.src.width*s);ed.prev.height=Math.round(ed.src.height*s);
+    ed.prev.getContext('2d').drawImage(ed.src,0,0,ed.prev.width,ed.prev.height);
+    $('#ed-editor').classList.remove('hidden');$('[data-drop=ed]').classList.add('hidden');status('ed','');
+    edApply({...ED_DEFAULT});
+  }catch(err){status('ed',err.message,'err')}});
+function edMakePreviewMask(){if(!ed.mask)return;const c=document.createElement('canvas');c.width=ed.prev.width;c.height=ed.prev.height;c.getContext('2d').drawImage(ed.mask,0,0,c.width,c.height);ed.maskP=c}
+function noiseTile(){if(ed.noise)return ed.noise;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');const d=x.createImageData(256,256);
+  for(let i=0;i<d.data.length;i+=4){const v=128+(Math.random()-0.5)*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}x.putImageData(d,0,0);return ed.noise=c}
+function hexRgb(h){const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
+function mix(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t))}
+function edRenderTo(img,mask,W,H,s){
+  const out=document.createElement('canvas');out.width=W;out.height=H;const x=out.getContext('2d');
+  // 1. background treatment
+  if(s.bgMode!=='keep'&&mask){
+    if(s.bgMode==='blur'){const r=Math.max(1,s.bgBlur/100*W*0.025);x.filter=`blur(${r}px)`;const p=r*2;x.drawImage(img,-p,-p,W+2*p,H+2*p);x.filter='none'}
+    else{const c=hexRgb(s.backdrop);const g=x.createRadialGradient(W*0.5,H*0.42,0,W*0.5,H*0.5,Math.max(W,H)*0.75);
+      g.addColorStop(0,`rgb(${mix(c,[255,255,255],0.28)})`);g.addColorStop(0.55,`rgb(${c})`);g.addColorStop(1,`rgb(${mix(c,[0,0,0],0.45)})`);x.fillStyle=g;x.fillRect(0,0,W,H)}
+    const fg=document.createElement('canvas');fg.width=W;fg.height=H;const fx=fg.getContext('2d');fx.drawImage(img,0,0,W,H);fx.globalCompositeOperation='destination-in';fx.drawImage(mask,0,0,W,H);
+    x.drawImage(fg,0,0);
+  } else x.drawImage(img,0,0,W,H);
+  // 2. colour (LUT + saturation)
+  const ex=Math.pow(2,s.exposure/100),ct=1+s.contrast/100*(s.contrast>0?0.9:0.7),fd=s.fade/100*0.22;
+  const wr=s.warmth*0.22,tg=s.tint*0.18;const L=[[],[],[]];
+  for(let ch=0;ch<3;ch++)for(let v=0;v<256;v++){let y=v*ex;y=(y-128)*ct+128;y+=ch===0?wr:ch===2?-wr:-tg;if(ch!==1)y+=tg*0.5;y=y*(1-fd)+255*fd*0.9;L[ch][v]=y<0?0:y>255?255:y}
+  const sat=1+s.saturation/100;
+  if(s.exposure||s.contrast||s.fade||s.warmth||s.tint||s.saturation){
+    const I=x.getImageData(0,0,W,H),d=I.data;
+    for(let i=0;i<d.length;i+=4){let r=L[0][d[i]],g=L[1][d[i+1]],b=L[2][d[i+2]];
+      if(sat!==1){const l=0.299*r+0.587*g+0.114*b;r=l+(r-l)*sat;g=l+(g-l)*sat;b=l+(b-l)*sat}
+      d[i]=r;d[i+1]=g;d[i+2]=b}
+    x.putImageData(I,0,0);
+  }
+  // 3. glow
+  if(s.glow>0){const g=document.createElement('canvas');g.width=W;g.height=H;const gx=g.getContext('2d');gx.filter=`blur(${Math.max(2,W*0.012)}px) brightness(1.1)`;gx.drawImage(out,0,0);
+    x.globalCompositeOperation='screen';x.globalAlpha=s.glow/100*0.55;x.drawImage(g,0,0);x.globalAlpha=1;x.globalCompositeOperation='source-over'}
+  // 4. vignette
+  if(s.vignette>0){const g=x.createRadialGradient(W/2,H/2,Math.min(W,H)*0.35,W/2,H/2,Math.hypot(W,H)/2);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,`rgba(0,0,0,${s.vignette/100*0.75})`);x.fillStyle=g;x.fillRect(0,0,W,H)}
+  // 5. grain
+  if(s.grain>0){const t=noiseTile();x.save();x.globalCompositeOperation='overlay';x.globalAlpha=s.grain/100*0.45;const sc=Math.max(1,W/1400);x.scale(sc,sc);x.fillStyle=x.createPattern(t,'repeat');x.fillRect(0,0,W/sc,H/sc);x.restore()}
+  return out;
+}
+function edRender(){if(!ed.prev)return;const W=ed.prev.width,H=ed.prev.height;if(ec.width!==W||ec.height!==H){ec.width=W;ec.height=H}
+  const x=ec.getContext('2d');if(ed.before){x.drawImage(ed.prev,0,0);return}
+  x.drawImage(edRenderTo(ed.prev,ed.maskP,W,H,ed.set),0,0)}
+let edRaf=false;function edRenderSoon(){if(edRaf)return;edRaf=true;requestAnimationFrame(()=>{edRaf=false;edRender()})}
+$('#ed-dl').onclick=async()=>{if(!ed.src)return;status('ed','Preparing full-size photo…');await new Promise(r=>setTimeout(r,30));
+  const c=edRenderTo(ed.src,ed.mask,ed.src.width,ed.src.height,ed.set);status('ed','');save(ed.name+'-edited.jpg',await canvasBlob(c,'image/jpeg',0.94))};
+
+/* describe the look → Claude picks settings */
+let edSample=null;
+(async()=>{try{if(window.claude&&claude.use)edSample=await claude.use('sample')}catch(e){}
+  if(!edSample){$('#ed-ai-box').classList.add('hidden')}})();
+$('#ed-ideas').addEventListener('click',e=>{const b=e.target.closest('button');if(b){$('#ed-desc').value=b.textContent;$('#ed-desc').focus()}});
+$('#ed-ai-go').onclick=async()=>{
+  const desc=$('#ed-desc').value.trim();if(!desc){toast('Type the look you want first.');return}
+  if(!ed.src){toast('Choose a photo first.');return}
+  if(!edSample){toast('This only works when the page is opened in Claude.');return}
+  const btn=$('#ed-ai-go');btn.disabled=true;$('#ed-ai-note').textContent='Thinking…';
+  try{
+    let images;try{const lim=await edSample.limits();if(lim&&lim.images){const t=document.createElement('canvas');const k=Math.min(1,1024/Math.max(ed.src.width,ed.src.height));t.width=Math.round(ed.src.width*k);t.height=Math.round(ed.src.height*k);t.getContext('2d').drawImage(ed.src,0,0,t.width,t.height);images=[await canvasBlob(t,'image/jpeg',0.85)]}}catch(e){}
+    const prompt=`You are a professional photo retoucher working in a simple photo editor. ${images?'The attached image is the photo to edit.':'You cannot see the photo, so assume a typical, normally exposed photo.'}
+The user wants it to look like: "${desc.replace(/"/g,"'").slice(0,500)}"
+
+Choose editor settings to get that look. ${images?'Take the photo’s current lighting and colours into account (e.g. raise brightness if it is dark, avoid pushing colour if it is already saturated).':''}
+Reply with only one JSON object with these keys:
+exposure (-100..100, about ±1 stop), contrast (-100..100), saturation (-100..100; -100 = black & white), warmth (-100 cool .. 100 warm), tint (-100 green .. 100 magenta), fade (0..100 matte lifted blacks), glow (0..100 soft dreamy glow), vignette (0..100 darker corners), grain (0..100 film grain),
+bgMode ("keep", "blur" for a portrait-style blurred background, or "studio" to replace the background with a studio backdrop; only use blur/studio when there is a clear person or subject and the look calls for it),
+bgBlur (0..100, used with blur), backdrop ("#rrggbb" studio backdrop colour, used with studio),
+note (one short friendly sentence describing what you changed).
+Keep edits tasteful: most values should be within ±40 unless the look clearly needs more.
+Example: {"exposure":8,"contrast":15,"saturation":-5,"warmth":10,"tint":0,"fade":0,"glow":15,"vignette":20,"grain":0,"bgMode":"blur","bgBlur":55,"backdrop":"#8a8f98","note":"Brightened the face slightly and softened the background."}`;
+    const res=await edSample.json(prompt,{images,modelTier:'quick'});
+    if(!res||typeof res!=='object')throw {code:'invalid_json'};
+    $$('#ed-presets button').forEach(x=>x.classList.remove('on'));
+    await edApply({...ED_DEFAULT,...res});
+    $('#ed-ai-note').textContent=res.note?String(res.note).slice(0,200):'Look applied. Fine-tune with the sliders.';
+  }catch(e){
+    const c=e&&e.code;
+    $('#ed-ai-note').textContent=c==='not_granted'||c==='sampling_disabled'?'Claude isn’t allowed for this page, so use the presets and sliders instead.':c==='rate_limited'?'Too many requests just now. Try again in a minute.':c==='refused'?'Claude couldn’t do that one. Try describing it differently.':c==='invalid_json'?'That didn’t come back right. Please try again.':'Something went wrong. Please try again.';
+  }
+  btn.disabled=!edSample;
+};
+
+/* ---------- CROP ---------- */
+let cropper=null,cropName='photo',cropAngle=0,cropRot=0,sX=1,sY=1;
+$('#crop-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+  if(!f.type.startsWith('image/')&&!/\.(jpe?g|png|webp|gif|bmp|heic)$/i.test(f.name)){status('crop','Please choose an image file.','err');return}
+  status('crop','Loading…');
+  try{await loadScript(CDN.cropper);}catch(err){status('crop',err.message,'err');return}
+  cropName=baseName(f.name);const img=$('#crop-img');
+  if(cropper){cropper.destroy();cropper=null}
+  img.onload=()=>{$('#crop-editor').classList.remove('hidden');$('[data-drop=crop]').classList.add('hidden');status('crop','');
+    cropAngle=0;cropRot=0;sX=sY=1;$('#crop-ang').value=0;$('#crop-ang-v').textContent='0°';
+    cropper=new Cropper(img,{viewMode:1,autoCropArea:0.9,background:false,responsive:true,crop(ev){$('#crop-meta').textContent=`Crop size: ${Math.round(ev.detail.width)} × ${Math.round(ev.detail.height)} px`}});
+    const r=+segVal('crop-ratio');cropper.setAspectRatio(r)};
+  img.onerror=()=>status('crop','That image format isn’t supported by your browser. Try a JPG or PNG.','err');
+  img.src=URL.createObjectURL(f);});
+segInit('crop-ratio',v=>cropper&&cropper.setAspectRatio(+v));
+segInit('crop-fmt');
+const applyRot=()=>cropper&&cropper.rotateTo(cropRot+cropAngle);
+$('#crop-rl').onclick=()=>{cropRot-=90;applyRot()};$('#crop-rr').onclick=()=>{cropRot+=90;applyRot()};
+$('#crop-ang').oninput=e=>{cropAngle=+e.target.value;$('#crop-ang-v').textContent=cropAngle+'°';applyRot()};
+$('#crop-fh').onclick=()=>{if(!cropper)return;sX=-sX;cropper.scaleX(sX)};$('#crop-fv').onclick=()=>{if(!cropper)return;sY=-sY;cropper.scaleY(sY)};
+$('#crop-reset').onclick=()=>{if(!cropper)return;cropper.reset();cropRot=0;cropAngle=0;sX=sY=1;$('#crop-ang').value=0;$('#crop-ang-v').textContent='0°'};
+$('#crop-go').onclick=async()=>{if(!cropper)return;const fmt=segVal('crop-fmt');
+  const c=cropper.getCroppedCanvas({fillColor:fmt==='jpg'?'#fff':'transparent',imageSmoothingQuality:'high',maxWidth:8000,maxHeight:8000});
+  if(!c){toast('Couldn’t crop that image.');return}
+  save(cropName+'-cropped.'+fmt,await canvasBlob(c,fmt==='jpg'?'image/jpeg':'image/png',0.94))};
+
+showTab();
+if('serviceWorker' in navigator && location.protocol==='https:' || location.hostname==='localhost'){
+  if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
