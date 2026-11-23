@@ -141,6 +141,10 @@ input[type=color]{width:32px;height:32px;border:2px solid var(--line);border-rad
 .cp-sizes{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .cp-sizes b{color:var(--ink)}
 #cp-after{color:var(--ok);font-weight:600}
+.ppsel{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:14px;background:var(--card);color:var(--ink)}
+.ppsel.cust{width:72px;display:inline-block}
+.btn.chg{cursor:pointer}
+#rt-remove-ctrls input[type=range],#rt-add-ctrls input[type=range]{width:100%;accent-color:var(--accent)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;max-width:90vw}
 .toast.show{opacity:1}
 .note{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink);margin-top:14px}
@@ -242,21 +246,34 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
   <!-- BACKGROUND -->
   <section class="panel" id="p-background">
     <h2>Passport photo &amp; background</h2>
-    <p class="sub">Upload a photo and the background is removed automatically by AI on your device. It's then framed at UK passport size (35 × 45 mm) with a plain background, ready to download or print.</p>
+    <p class="sub">Upload a photo and the background is removed automatically by AI on your device. Pick your country's passport size, and it's framed to the right head position on a plain background, ready to download or print.</p>
     <label class="drop" data-drop="bg"><input type="file" accept="image/*" id="bg-file"><strong>Choose a photo</strong><span>Face the camera, with your shoulders in the shot and good, even light</span></label>
     <div class="progress hidden" id="bg-prog"><div class="bar"><i id="bg-bar"></i></div><span id="bg-prog-t">Starting…</span></div>
     <div class="editor hidden" id="bg-editor">
       <div>
         <div class="stage" id="bg-stage"><canvas id="bg-canvas"></canvas></div>
         <p class="hint" style="margin:8px 0 0" id="bg-hint"></p>
+        <div class="row" style="margin:8px 0 0"><label class="btn sm chg">↻ Change photo<input type="file" accept="image/*" id="bg-file2" class="hidden"></label></div>
       </div>
       <div class="side">
         <div>
           <h3>Size</h3>
-          <div class="seg" id="bg-size"><button data-v="pp" class="on">Passport 35×45</button><button data-v="orig">Original</button></div>
+          <div class="seg" id="bg-size"><button data-v="pp" class="on">Passport</button><button data-v="orig">Original</button></div>
         </div>
         <div id="bg-pp-box">
-          <h3>Position</h3>
+          <h3>Passport type</h3>
+          <select id="bg-ppsize" class="ppsel"></select>
+          <div id="bg-custom-box" class="hidden" style="margin-top:8px">
+            <div class="row" style="margin:0 0 6px;align-items:center">
+              <input type="number" id="bg-cw" class="ppsel cust" min="20" max="150" step="1" placeholder="W">
+              <span class="hint">×</span>
+              <input type="number" id="bg-ch" class="ppsel cust" min="20" max="200" step="1" placeholder="H">
+              <div class="seg" id="bg-cunit"><button data-v="mm" class="on">mm</button><button data-v="in">in</button></div>
+            </div>
+            <label class="mt-lab" for="bg-chead">Head height (chin to crown)</label>
+            <input type="number" id="bg-chead" class="ppsel cust" step="1" placeholder="head" style="width:100px">
+          </div>
+          <h3 style="margin-top:12px">Position</h3>
           <div class="row" style="margin:0 0 8px"><button class="btn sm" id="bg-autofit">✨ Auto-fit head</button><label class="opt"><input type="checkbox" id="bg-guides" checked> Guides</label></div>
           <h3>Zoom</h3>
           <input type="range" id="bg-zoom" min="-300" max="300" value="0">
@@ -270,9 +287,13 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
             <button class="sw" data-c="#4f8fe0" style="background:#4f8fe0" title="Blue"></button>
             <button class="sw" data-c="#c62828" style="background:#c62828" title="Red"></button>
             <button class="sw trans" data-c="transparent" title="Transparent"></button>
-            <input type="color" id="bg-custom" value="#8bc34a" title="Any colour">
           </div>
-          <p class="hint" style="margin:6px 0 0">UK passports need light grey or cream.</p>
+          <div class="row" style="margin:8px 0 0;align-items:center">
+            <input type="color" id="bg-custom" value="#8bc34a" title="Pick any colour">
+            <input type="text" id="bg-hex" class="ppsel" value="#8bc34a" maxlength="7" placeholder="#rrggbb" style="width:104px">
+            <span class="hint">custom colour</span>
+          </div>
+          <p class="hint" style="margin:6px 0 0">Most passports need plain light grey, cream or white.</p>
           <label class="btn sm" style="margin-top:8px;width:fit-content">Use a picture<input type="file" accept="image/*" id="bg-img" class="hidden"></label>
         </div>
         <div>
@@ -304,7 +325,6 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
           </div>
           <p class="hint" style="margin:6px 0 0" id="bg-dl-hint">The print sheet has 8 passport photos on a standard 6×4 inch print. Most photo shops and kiosks print these.</p>
         </div>
-        <label class="drop" data-drop="bg2" style="padding:10px"><input type="file" accept="image/*" id="bg-file2"><span>Use a different photo</span></label>
       </div>
     </div>
     <div class="status" id="bg-status"></div>
@@ -319,6 +339,7 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
     <div class="editor wide hidden" id="ed-editor">
       <div>
         <div class="stage" id="ed-stage" style="background:var(--bg)"><canvas id="ed-canvas"></canvas></div>
+        <div class="row" style="margin:8px 0 0"><label class="btn sm chg">↻ Change photo<input type="file" accept="image/*" id="ed-file2" class="hidden"></label></div>
         <div class="row">
           <button class="btn sm" id="ed-before">Hold to see original</button>
           <button class="btn sm" id="ed-reset">Reset all</button>
@@ -373,6 +394,7 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
       <div>
         <div class="crop-wrap"><img id="crop-img" alt=""></div>
         <p class="meta" id="crop-meta" style="margin:8px 0 0"></p>
+        <div class="row" style="margin:8px 0 0"><label class="btn sm chg">↻ Change photo<input type="file" accept="image/*" id="crop-file2" class="hidden"></label></div>
       </div>
       <div class="side">
         <div>
@@ -451,6 +473,50 @@ footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
     <div class="status" id="cp-status"></div>
   </section>
 
+  <!-- RETOUCH -->
+  <section class="panel" id="p-retouch">
+    <h2>Add &amp; remove objects</h2>
+    <p class="sub">Paint over something to erase it, or drop in another image and place it. Runs entirely on your device. It's good for small, well-defined objects &mdash; not a full magic eraser.</p>
+    <label class="drop" data-drop="rt"><input type="file" accept="image/*" id="rt-file"><strong>Choose a photo</strong><span>JPG, PNG or WebP</span></label>
+    <div class="editor wide hidden" id="rt-editor">
+      <div>
+        <div class="stage" id="rt-stage" style="background:var(--bg)"><canvas id="rt-canvas"></canvas></div>
+        <div class="row" style="margin:8px 0 0"><label class="btn sm chg">↻ Change photo<input type="file" accept="image/*" id="rt-file2" class="hidden"></label></div>
+        <p class="hint" id="rt-hint" style="margin:8px 0 0"></p>
+      </div>
+      <div class="side">
+        <div>
+          <h3>Mode</h3>
+          <div class="seg" id="rt-mode"><button data-v="remove" class="on">Remove</button><button data-v="add">Add image</button></div>
+        </div>
+        <div id="rt-remove-ctrls">
+          <h3>Tool</h3>
+          <div class="seg" id="rt-tool"><button data-v="heal" class="on">Heal</button><button data-v="clone">Clone</button></div>
+          <div id="rt-clone-box" class="hidden" style="margin-top:8px"><button class="btn sm" id="rt-setsrc">Set clone source</button><span class="hint" id="rt-src-note" style="margin-left:6px">pick a source first</span></div>
+          <h3 style="margin-top:10px">Brush <span id="rt-brush-v" style="text-transform:none">30</span></h3>
+          <input type="range" id="rt-brush" min="6" max="160" value="30">
+          <div class="row" style="margin:10px 0 0"><button class="btn sm" id="rt-undo">↶ Undo</button><button class="btn sm" id="rt-reset">Reset photo</button></div>
+        </div>
+        <div id="rt-add-ctrls" class="hidden">
+          <label class="btn sm" style="width:fit-content">+ Add an image<input type="file" accept="image/*" id="rt-add" class="hidden"></label>
+          <label class="opt" style="margin-top:8px"><input type="checkbox" id="rt-add-cut" checked> Cut out its background (AI)</label>
+          <div id="rt-obj-ctrls" class="hidden">
+            <h3 style="margin-top:12px">Selected object</h3>
+            <span class="hint">Size</span><input type="range" id="rt-oscale" min="5" max="300" value="100">
+            <span class="hint">Rotate</span><input type="range" id="rt-orot" min="-180" max="180" value="0">
+            <div class="row" style="margin:8px 0 0"><button class="btn sm" id="rt-oflip">⇋ Flip</button><button class="btn sm" id="rt-ofront">Bring front</button><button class="btn sm" id="rt-odel">🗑 Delete</button></div>
+          </div>
+          <p class="hint" style="margin:8px 0 0">Tap an object to select it, then drag to move.</p>
+        </div>
+        <div>
+          <h3>Download</h3>
+          <div class="row" style="margin:0"><button class="btn primary" id="rt-png">PNG</button><button class="btn" id="rt-jpg">JPG</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="status" id="rt-status"></div>
+  </section>
+
   <footer>Everything runs on your device. Nothing is uploaded, and it works offline.</footer>
 </div>
 <div class="toast" id="toast"></div>
@@ -520,7 +586,7 @@ function loadImageFile(file,max=2400){
 /* tabs via hash */
 const GROUPS=[
  {g:'convert',label:'Convert',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h12M13 4l3 3-3 3M20 17H8M11 14l-3 3 3 3"/></svg>',tabs:[['word-to-pdf','Word \u2192 PDF'],['pdf-to-word','PDF \u2192 Word']]},
- {g:'photos',label:'Photos',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.6"/><path d="m21 15-4.5-4.5L5 21"/></svg>',tabs:[['scan','Scan'],['background','Passport'],['edit','Editor'],['crop','Crop']]},
+ {g:'photos',label:'Photos',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.6"/><path d="m21 15-4.5-4.5L5 21"/></svg>',tabs:[['scan','Scan'],['background','Passport'],['edit','Editor'],['crop','Crop'],['retouch','Objects']]},
  {g:'metadata',label:'Edit metadata',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/><path d="M16 4h5m0 0v5m0-5-6 6"/></svg>',tabs:[['metadata','Edit metadata']]},
  {g:'compress',label:'Compress',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4M21 9V5a2 2 0 0 0-2-2h-4M3 15v4a2 2 0 0 0 2 2h4M15 21h4a2 2 0 0 0 2-2v-4M8 12h8"/></svg>',tabs:[['compress','Compress']]}
 ];
@@ -570,7 +636,7 @@ $('#w2p-go').addEventListener('click',async()=>{
     el.style.width=fmt==='a4'?'180mm':'185.9mm';
     const blob=await html2pdf().set({margin:[15,15,15,15],image:{type:'jpeg',quality:0.96},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:fmt,orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['img','tr','h1','h2','h3']}}).from(el).outputPdf('blob');
     el.style.maxWidth=prevMax;el.style.width='';
-    const ok=await save(baseName(w2pFile.name)+'.pdf',blob);
+    const ok=await save(baseName(w2pFile.name)+'-updated.pdf',blob);
     status('w2p',ok?'Done! Your PDF is ready.':'PDF built. Click convert again to save it.','ok');
   }catch(err){status('w2p','Something went wrong: '+err.message,'err')}
   btn.disabled=false;
@@ -644,7 +710,7 @@ $('#p2w-go').addEventListener('click',async()=>{
     status('p2w','Building Word file…');
     const doc=new D.Document({styles:{default:{document:{run:{font:'Calibri'}}}},sections:[{properties:{page:{margin:{top:1000,bottom:1000,left:1000,right:1000}}},children}]});
     const blob=await D.Packer.toBlob(doc);
-    const ok=await save(baseName(p2wFile.name)+'.docx',blob);
+    const ok=await save(baseName(p2wFile.name)+'-updated.docx',blob);
     let msg=ok?'Done! Your Word file is ready.':'Word file built. Click convert again to save it.';
     if(mode==='text'&&emptyPages) msg+=` ${emptyPages} page(s) had no readable text (probably scanned), so they were added as pictures.`;
     status('p2w',msg,'ok');
@@ -656,14 +722,77 @@ $('#p2w-go').addEventListener('click',async()=>{
 const scan={src:null,corners:null,step:'corners',filter:'doc',pages:[],result:null,drag:-1};
 const sc=$('#scan-canvas'),sx=sc.getContext('2d');
 async function scanLoad(f){
-  try{status('scan','Loading photo…');scan.src=await loadImageFile(f,2400);scanResetCorners();scanAutoDetect(true);scan.step='corners';
+  try{status('scan','Loading photo…');if(!scan.name)scan.name=baseName(f.name);scan.src=await loadImageFile(f,2400);scanResetCorners();scanAutoDetect(true);scan.step='corners';
     $$('#scan-step button').forEach(b=>b.classList.toggle('on',b.dataset.v==='corners'));
     $('#scan-editor').classList.remove('hidden');$('[data-drop=scan]').classList.add('hidden');status('scan','');scanDraw();}
   catch(err){status('scan',err.message,'err')}
 }
 $('#scan-file').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
 $('#scan-file2').addEventListener('change',e=>{const f=pick(e.target);if(f)scanLoad(f)});
-function scanDetectCorners(src){
+function scanDetectCorners(src){return scanDetectHough(src)||scanDetectColour(src);}
+function scanDetectHough(src){
+  const maxW=440,s=Math.min(1,maxW/src.width),w=Math.round(src.width*s),h=Math.round(src.height*s);
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(src,0,0,w,h);
+  const d=cv.getContext('2d').getImageData(0,0,w,h).data;
+  // grayscale
+  const g=new Float32Array(w*h);for(let p=0;p<w*h;p++){const i=p*4;g[p]=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]}
+  // box blur 3x3 twice
+  const blur=src=>{const o=new Float32Array(w*h);for(let y=0;y<h;y++)for(let x=0;x<w;x++){let s=0,n=0;for(let dy=-1;dy<=1;dy++){const yy=y+dy;if(yy<0||yy>=h)continue;for(let dx=-1;dx<=1;dx++){const xx=x+dx;if(xx<0||xx>=w)continue;s+=src[yy*w+xx];n++}}o[y*w+x]=s/n}return o};
+  let gb=blur(blur(g));
+  // sobel magnitude
+  const mag=new Float32Array(w*h);let mx=0;
+  for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;
+    const gx=-gb[i-w-1]-2*gb[i-1]-gb[i+w-1]+gb[i-w+1]+2*gb[i+1]+gb[i+w+1];
+    const gy=-gb[i-w-1]-2*gb[i-w]-gb[i-w+1]+gb[i+w-1]+2*gb[i+w]+gb[i+w+1];
+    const m=Math.sqrt(gx*gx+gy*gy);mag[i]=m;if(m>mx)mx=m}
+  if(mx<12)return null;
+  // threshold at high percentile
+  const B=64,hist=new Array(B).fill(0);for(let p=0;p<w*h;p++)hist[Math.min(B-1,Math.floor(mag[p]/mx*B))]++;
+  let acc=0,thr=mx*0.25;const target=w*h*0.10;
+  for(let i=B-1;i>=0;i--){acc+=hist[i];if(acc>=target){thr=i/B*mx;break}}
+  thr=Math.max(thr,mx*0.18);
+  // edge points
+  const pts=[];for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++)if(mag[y*w+x]>thr)pts.push(x,y);
+  if(pts.length<4*40)return null;
+  // Hough
+  const TH=90,dTheta=Math.PI/TH,cosT=new Float32Array(TH),sinT=new Float32Array(TH);
+  for(let t=0;t<TH;t++){cosT[t]=Math.cos(t*dTheta);sinT[t]=Math.sin(t*dTheta)}
+  const rhoMax=Math.ceil(Math.hypot(w,h)),RB=2*rhoMax+1;
+  const A=new Int32Array(TH*RB);
+  for(let k=0;k<pts.length;k+=2){const x=pts[k],y=pts[k+1];
+    for(let t=0;t<TH;t++){const r=Math.round(x*cosT[t]+y*sinT[t])+rhoMax;A[t*RB+r]++}}
+  // candidate peaks via NMS
+  const minV=Math.max(14,Math.min(w,h)*0.22);
+  const cells=[];for(let t=0;t<TH;t++)for(let r=0;r<RB;r++){const v=A[t*RB+r];if(v>=minV)cells.push([v,t,r])}
+  cells.sort((a,b)=>b[0]-a[0]);
+  const lines=[];
+  for(const [v,t,r] of cells){let ok=true;for(const L of lines){let dt=Math.abs(t-L.t);dt=Math.min(dt,TH-dt);if(dt<6&&Math.abs(r-L.r)<18){ok=false;break}}
+    if(ok){lines.push({v,t,r,theta:t*dTheta,rho:r-rhoMax});if(lines.length>=60)break}}
+  // split bands
+  const vert=[],horiz=[];
+  for(const L of lines){const deg=L.theta*180/Math.PI;
+    if(deg<28||deg>152)vert.push(L);else if(deg>62&&deg<118)horiz.push(L)}
+  const posV=L=>(L.rho-(h/2)*Math.sin(L.theta))/Math.cos(L.theta);   // x at mid-height
+  const posH=L=>(L.rho-(w/2)*Math.cos(L.theta))/Math.sin(L.theta);   // y at mid-width
+  function pickPair(arr,pos,span){if(arr.length<2)return null;arr.sort((a,b)=>b.v-a.v);const A=arr[0];let B=null;
+    for(let i=1;i<arr.length;i++){if(Math.abs(pos(arr[i])-pos(A))>span){B=arr[i];break}}
+    if(!B)return null;return pos(A)<pos(B)?[A,B]:[B,A]}
+  const vp=pickPair(vert,posV,w*0.22),hp=pickPair(horiz,posH,h*0.22);
+  if(!vp||!hp)return null;
+  const [L,R]=vp,[T,Bt]=hp;
+  const X=(a,b)=>{const a1=Math.cos(a.theta),b1=Math.sin(a.theta),a2=Math.cos(b.theta),b2=Math.sin(b.theta);const det=a1*b2-a2*b1;if(Math.abs(det)<1e-6)return null;return [(a.rho*b2-b.rho*b1)/det,(a1*b.rho-a2*a.rho)/det]};
+  const tl=X(L,T),tr=X(R,T),br=X(R,Bt),bl=X(L,Bt);
+  if(!tl||!tr||!br||!bl)return null;
+  const pts4=[tl,tr,br,bl].map(p=>[p[0]/s,p[1]/s]);
+  for(const p of pts4)if(p[0]<-src.width*0.08||p[1]<-src.height*0.08||p[0]>src.width*1.08||p[1]>src.height*1.08)return null;
+  const area=Math.abs((pts4[0][0]*(pts4[1][1]-pts4[3][1])+pts4[1][0]*(pts4[2][1]-pts4[0][1])+pts4[2][0]*(pts4[3][1]-pts4[1][1])+pts4[3][0]*(pts4[0][1]-pts4[2][1]))/2);
+  const frac=area/(src.width*src.height);if(frac<0.12||frac>1.05)return null;
+  const side=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  if(Math.min(side(pts4[0],pts4[1]),side(pts4[1],pts4[2]),side(pts4[2],pts4[3]),side(pts4[3],pts4[0]))<Math.min(src.width,src.height)*0.12)return null;
+  return pts4;
+}
+
+function scanDetectColour(src){
   const maxW=480,s=Math.min(1,maxW/src.width),w=Math.round(src.width*s),h=Math.round(src.height*s);
   const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);
   const d=c.getContext('2d').getImageData(0,0,w,h).data;
@@ -801,16 +930,16 @@ function scanAddPage(){const r=ensureResult();if(!r)return false;const t=documen
   scan.pages.push({w:r.width,h:r.height,data:r.toDataURL('image/jpeg',0.88),thumb:t.toDataURL('image/jpeg',0.7)});scanRenderPages();return true}
 $('#scan-add').onclick=()=>{if(scanAddPage()){toast('Page '+scan.pages.length+' added — pick the next photo');$('#scan-file2').click()}};
 $('#scan-addonly').onclick=()=>{if(scanAddPage())toast('Page '+scan.pages.length+' added')};
-$('#scan-jpg').onclick=async()=>{const r=ensureResult();if(!r)return;save('scan.jpg',await canvasBlob(r,'image/jpeg',0.92))};
+$('#scan-jpg').onclick=async()=>{const r=ensureResult();if(!r)return;save((scan.name||'scan')+'-updated.jpg',await canvasBlob(r,'image/jpeg',0.92))};
 function dataURLtoBlob(u){const b=atob(u.split(',')[1]);const a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:'image/jpeg'})}
 $('#scan-jpgs').onclick=async()=>{
   if(!scan.pages.length)return;
-  if(scan.pages.length===1){return save('scan-1.jpg',dataURLtoBlob(scan.pages[0].data))}
+  if(scan.pages.length===1){return save((scan.name||'scan')+'-updated.jpg',dataURLtoBlob(scan.pages[0].data))}
   status('scan','Packing photos…');
   try{await loadScript(CDN.jszip);const zip=new JSZip();
     scan.pages.forEach((p,i)=>zip.file(`scan-${String(i+1).padStart(2,'0')}.jpg`,p.data.split(',')[1],{base64:true}));
     const blob=await zip.generateAsync({type:'blob'});
-    const ok=await save('scanned-photos.zip',blob);status('scan',ok?'Photos exported as a ZIP.':'','ok');
+    const ok=await save((scan.name||'scan')+'-updated.zip',blob);status('scan',ok?'Photos exported as a ZIP.':'','ok');
   }catch(err){status('scan','Couldn’t export: '+err.message,'err')}
 };
 $('#scan-pdf').onclick=async()=>{
@@ -818,13 +947,22 @@ $('#scan-pdf').onclick=async()=>{
   try{await loadScript(CDN.jspdf);const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4'});
     scan.pages.forEach((p,i)=>{if(i)pdf.addPage('a4');const pw=210,ph=297,m=8;let w=pw-2*m,h=w*p.h/p.w;if(h>ph-2*m){h=ph-2*m;w=h*p.w/p.h}
       pdf.addImage(p.data,'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST')});
-    const ok=await save('scan.pdf',pdf.output('blob'));status('scan',ok?'PDF saved ('+scan.pages.length+' page'+(scan.pages.length>1?'s':'')+').':'','ok');
+    const ok=await save((scan.name||'scan')+'-updated.pdf',pdf.output('blob'));status('scan',ok?'PDF saved ('+scan.pages.length+' page'+(scan.pages.length>1?'s':'')+').':'','ok');
   }catch(err){status('scan','Couldn’t make the PDF: '+err.message,'err')}
 };
 
 /* ---------- PASSPORT / BACKGROUND ---------- */
-const PPW=700,PPH=900,PXMM=20;            // 35 x 45 mm at 20 px/mm
-const CROWN_MM=4.5,HEAD_MM=32;            // UK: chin-to-crown 29-34 mm
+const PXMM=20;
+const PP_SIZES=[
+ {id:'uk',name:'UK / EU / Schengen — 35×45 mm',w:35,h:45,hmin:29,hmax:34,crown:4},
+ {id:'us',name:'US / India visa — 2×2 in (51×51 mm)',w:51,h:51,hmin:25,hmax:35,crown:9},
+ {id:'ca',name:'Canada — 50×70 mm',w:50,h:70,hmin:31,hmax:36,crown:9},
+ {id:'au',name:'Australia — 35×45 mm',w:35,h:45,hmin:32,hmax:36,crown:4},
+ {id:'cn',name:'China — 33×48 mm',w:33,h:48,hmin:28,hmax:33,crown:6},
+ {id:'inp',name:'India passport — 35×45 mm',w:35,h:45,hmin:25,hmax:35,crown:5}
+];
+let PP=PP_SIZES[0], PPW=Math.round(PP.w*PXMM), PPH=Math.round(PP.h*PXMM);
+function headTarget(){return (PP.hmin+PP.hmax)/2}
 const bg={src:null,orig:null,mask:null,undo:[],tool:'move',color:'#e8e8e8',img:null,fg:null,fgData:null,painting:false,size:'pp',pv:{s:1,tx:0,ty:0},fitS:1};
 const bc=$('#bg-canvas'),bx=bc.getContext('2d');
 const AI={sess:null,p:null};
@@ -871,7 +1009,7 @@ async function aiCutout(){
 }
 async function bgOpen(f){
   try{
-    status('bg','');const c=await loadImageFile(f,1600);bg.src=c;const W=c.width,H=c.height;
+    status('bg','');bg.name=baseName(f.name);const c=await loadImageFile(f,1600);bg.src=c;const W=c.width,H=c.height;
     bg.orig=c.getContext('2d').getImageData(0,0,W,H);bg.mask=new Uint8ClampedArray(W*H).fill(255);bg.undo=[];
     bg.fg=document.createElement('canvas');bg.fg.width=W;bg.fg.height=H;bg.fgData=new ImageData(new Uint8ClampedArray(bg.orig.data),W,H);
     $('#bg-editor').classList.remove('hidden');$('[data-drop=bg]').classList.add('hidden');
@@ -892,13 +1030,32 @@ segInit('bg-tool',setTool);
 function bgHint(){const v=bg.tool,pp=bg.size==='pp';
   $('#bg-hint').textContent=v==='move'?(pp?'Drag the photo to move it, and use the zoom slider or mouse wheel. Top of head on the upper line, chin between the lower two.':'Pick Erase or Restore to tidy edges.'):
   v==='erase'?'Paint over any leftover background to remove it.':v==='restore'?'Paint over parts of the person that were cut off by mistake.':'Tap a background area to remove everything of a similar colour.'}
+function applyPP(spec){PP=spec;PPW=Math.round(PP.w*PXMM);PPH=Math.round(PP.h*PXMM);if(bg.src){bgFitWhole();if(bg.mask)autoFit();}bgRender();}
+function readCustom(){const toMM=segVal('bg-cunit')==='in'?25.4:1;
+  let w=(+$('#bg-cw').value||0)*toMM,h=(+$('#bg-ch').value||0)*toMM,hd=(+$('#bg-chead').value||0)*toMM;
+  w=Math.min(150,Math.max(20,w||35));h=Math.min(220,Math.max(20,h||45));hd=Math.min(h-4,Math.max(8,hd||Math.round(h*0.7)));
+  const crown=Math.min(h-hd-2,Math.max(2,(h-hd)*0.3));
+  applyPP({id:'custom',name:'Custom',w,h,hmin:Math.max(6,hd-2),hmax:hd+2,crown});}
+(function(){const sel=$('#bg-ppsize');if(sel&&!sel.options.length){
+  sel.innerHTML=PP_SIZES.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('')+'<option value="custom">Custom size…</option>';
+  sel.onchange=()=>{const cb=$('#bg-custom-box');
+    if(sel.value==='custom'){cb.classList.remove('hidden');
+      if(!$('#bg-cw').value){$('#bg-cw').value=PP.w;$('#bg-ch').value=PP.h;$('#bg-chead').value=Math.round(headTarget())}
+      readCustom();}
+    else{cb.classList.add('hidden');applyPP(PP_SIZES[+sel.value]||PP_SIZES[0]);}};
+  ['bg-cw','bg-ch','bg-chead'].forEach(id=>$('#'+id).addEventListener('input',()=>{if(sel.value==='custom')readCustom()}));
+  segInit('bg-cunit',()=>{if(sel.value==='custom')readCustom()});
+}})();
 segInit('bg-size',v=>{bg.size=v;$('#bg-pp-box').classList.toggle('hidden',v!=='pp');$('#bg-dl-pp').classList.toggle('hidden',v!=='pp');$('#bg-dl-orig').classList.toggle('hidden',v==='pp');
   $('#bg-dl-hint').classList.toggle('hidden',v!=='pp');bgHint();bgRender()});
 $('#bg-guides').onchange=bgRender;
 $('#bg-tol').oninput=e=>$('#bg-tol-v').textContent=e.target.value;
 $('#bg-brush').oninput=e=>$('#bg-brush-v').textContent=e.target.value;
-$('#bg-sw').addEventListener('click',e=>{const b=e.target.closest('.sw');if(!b)return;$$('#bg-sw .sw').forEach(x=>x.classList.toggle('on',x===b));bg.color=b.dataset.c;bg.img=null;bgRender()});
-$('#bg-custom').addEventListener('input',e=>{$$('#bg-sw .sw').forEach(x=>x.classList.remove('on'));bg.color=e.target.value;bg.img=null;bgRender()});
+$('#bg-sw').addEventListener('click',e=>{const b=e.target.closest('.sw');if(!b)return;$$('#bg-sw .sw').forEach(x=>x.classList.toggle('on',x===b));bg.color=b.dataset.c;bg.img=null;if(/^#[0-9a-f]{6}$/i.test(b.dataset.c)){$('#bg-custom').value=b.dataset.c;$('#bg-hex').value=b.dataset.c}bgRender()});
+function setBgColour(hex){if(!/^#?[0-9a-fA-F]{6}$/.test(hex))return;if(hex[0]!=='#')hex='#'+hex;hex=hex.toLowerCase();
+  $('#bg-custom').value=hex;$('#bg-hex').value=hex;$$('#bg-sw .sw').forEach(x=>x.classList.remove('on'));bg.color=hex;bg.img=null;bgRender();}
+$('#bg-custom').addEventListener('input',e=>setBgColour(e.target.value));
+$('#bg-hex').addEventListener('input',e=>{let v=e.target.value.trim();if(/^#?[0-9a-fA-F]{6}$/.test(v))setBgColour(v)});
 $('#bg-img').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{bg.img=await loadImageFile(f,2400);$$('#bg-sw .sw').forEach(x=>x.classList.remove('on'));bgRender()}catch(err){toast(err.message)}e.target.value=''});
 function pushUndo(){bg.undo.push(bg.mask.slice());if(bg.undo.length>25)bg.undo.shift()}
 $('#bg-undo').onclick=()=>{if(!bg.undo.length)return;bg.mask=bg.undo.pop();bgSyncFg();bgRender()};
@@ -925,8 +1082,8 @@ function autoFit(){
     const h=chin+0.08*maxW-crown;if(h>maxW*1.05&&h<maxW*1.6)headH=h}
   let sx=0,sn=0;for(let yy=crown;yy<Math.min(H,crown+headH*0.8);yy++)if(cen[yy]>=0){sx+=cen[yy];sn++}
   const cx=sn?sx/sn:W/2;
-  const s=HEAD_MM*PXMM/headH;
-  bg.pv={s,tx:PPW/2-cx*s,ty:CROWN_MM*PXMM-crown*s};bg.fitS=s;$('#bg-zoom').value=0;return true;
+  const s=headTarget()*PXMM/headH;
+  bg.pv={s,tx:PPW/2-cx*s,ty:PP.crown*PXMM-crown*s};bg.fitS=s;$('#bg-zoom').value=0;return true;
 }
 $('#bg-autofit').onclick=()=>{if(!bg.src)return;if(!autoFit())toast('Couldn’t find a head in the cut-out.');bgRender()};
 $('#bg-zoom').addEventListener('input',e=>{if(!bg.src)return;zoomTo(bg.fitS*Math.pow(2,e.target.value/100),PPW/2,PPH/2)});
@@ -945,7 +1102,7 @@ function bgCompose(ctx,W,H,opaque,v){
 function drawGuides(ctx){
   ctx.save();ctx.strokeStyle='rgba(59,91,253,.85)';ctx.fillStyle='rgba(59,91,253,.9)';ctx.lineWidth=2;ctx.setLineDash([10,8]);ctx.font='600 18px -apple-system,system-ui,sans-serif';
   const line=(y,label)=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(PPW,y);ctx.stroke();ctx.fillText(label,10,y-6)};
-  line(CROWN_MM*PXMM,'Top of head');line((CROWN_MM+29)*PXMM,'Chin: between these lines');line((CROWN_MM+34)*PXMM,'');
+  line(PP.crown*PXMM,'Top of head');line((PP.crown+PP.hmin)*PXMM,'Chin: between these lines');line((PP.crown+PP.hmax)*PXMM,'');
   ctx.setLineDash([4,8]);ctx.beginPath();ctx.moveTo(PPW/2,0);ctx.lineTo(PPW/2,PPH);ctx.stroke();ctx.restore();
 }
 function bgRender(){
@@ -995,15 +1152,17 @@ const endPaint=()=>{panning=null;if(bg.painting){bg.painting=false;bgRender()}};
 bc.addEventListener('pointerup',endPaint);bc.addEventListener('pointercancel',endPaint);
 /* ---- export ---- */
 function ppCanvas(w,h,opaque){const c=document.createElement('canvas');c.width=w;c.height=h;const k=w/PPW,v=bg.pv;bgCompose(c.getContext('2d'),w,h,opaque,{s:v.s*k,tx:v.tx*k,ty:v.ty*k});return c}
-$('#bg-dl-photo').onclick=async()=>{if(!bg.src)return;save('passport-photo-35x45mm.jpg',await canvasBlob(ppCanvas(827,1063,true),'image/jpeg',0.95))};
+$('#bg-dl-photo').onclick=async()=>{if(!bg.src)return;const dpi=600,w=Math.round(PP.w/25.4*dpi),h=Math.round(PP.h/25.4*dpi);save((bg.name||'passport')+'-updated.jpg',await canvasBlob(ppCanvas(w,h,true),'image/jpeg',0.95))};
 $('#bg-dl-sheet').onclick=async()=>{if(!bg.src)return;
-  const S=document.createElement('canvas');S.width=1800;S.height=1200;const x=S.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,1800,1200);
-  const pw=413,ph=531,ph1=ppCanvas(pw,ph,true),gx=(1800-4*pw)/5,gy=(1200-2*ph)/3;
+  const SW=1800,SH=1200,dpi=300,gap=18;const S=document.createElement('canvas');S.width=SW;S.height=SH;const x=S.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,SW,SH);
+  const pw=Math.round(PP.w/25.4*dpi),ph=Math.round(PP.h/25.4*dpi);
+  const cols=Math.max(1,Math.floor((SW+gap)/(pw+gap))),rows=Math.max(1,Math.floor((SH+gap)/(ph+gap)));
+  const ox=(SW-cols*pw-(cols-1)*gap)/2,oy=(SH-rows*ph-(rows-1)*gap)/2,ph1=ppCanvas(pw,ph,true);
   x.strokeStyle='#bdbdbd';x.lineWidth=1;
-  for(let r=0;r<2;r++)for(let c=0;c<4;c++){const px=Math.round(gx+c*(pw+gx)),py=Math.round(gy+r*(ph+gy));x.drawImage(ph1,px,py);x.strokeRect(px-0.5,py-0.5,pw+1,ph+1)}
-  save('passport-photos-6x4-print.jpg',await canvasBlob(S,'image/jpeg',0.95))};
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const px=Math.round(ox+c*(pw+gap)),py=Math.round(oy+r*(ph+gap));x.drawImage(ph1,px,py);x.strokeRect(px-0.5,py-0.5,pw+1,ph+1)}
+  save((bg.name||'passport')+'-sheet-updated.jpg',await canvasBlob(S,'image/jpeg',0.95))};
 async function bgExport(type){if(!bg.src)return;const c=document.createElement('canvas');c.width=bg.src.width;c.height=bg.src.height;bgCompose(c.getContext('2d'),c.width,c.height,type==='jpg',{s:1,tx:0,ty:0});
-  save('photo-new-background.'+type,await canvasBlob(c,type==='jpg'?'image/jpeg':'image/png',0.94))}
+  save((bg.name||'photo')+'-updated.'+type,await canvasBlob(c,type==='jpg'?'image/jpeg':'image/png',0.94))}
 $('#bg-png').onclick=()=>bgExport('png');$('#bg-jpg').onclick=()=>bgExport('jpg');
 setTool('move');
 
@@ -1062,13 +1221,14 @@ async function edApply(set){
   }
   edRender();
 }
-$('#ed-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+async function edLoad(f){
   try{ed.src=await loadImageFile(f,2400);ed.name=baseName(f.name);ed.mask=null;
     const s=Math.min(1,1100/Math.max(ed.src.width,ed.src.height));ed.prev=document.createElement('canvas');ed.prev.width=Math.round(ed.src.width*s);ed.prev.height=Math.round(ed.src.height*s);
     ed.prev.getContext('2d').drawImage(ed.src,0,0,ed.prev.width,ed.prev.height);
     $('#ed-editor').classList.remove('hidden');$('[data-drop=ed]').classList.add('hidden');status('ed','');
     edApply({...ED_DEFAULT});
-  }catch(err){status('ed',err.message,'err')}});
+  }catch(err){status('ed',err.message,'err')}}
+['ed-file','ed-file2'].forEach(id=>$('#'+id).addEventListener('change',e=>{const f=pick(e.target);if(f)edLoad(f)}));
 function edMakePreviewMask(){if(!ed.mask)return;const c=document.createElement('canvas');c.width=ed.prev.width;c.height=ed.prev.height;c.getContext('2d').drawImage(ed.mask,0,0,c.width,c.height);ed.maskP=c}
 function noiseTile(){if(ed.noise)return ed.noise;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');const d=x.createImageData(256,256);
   for(let i=0;i<d.data.length;i+=4){const v=128+(Math.random()-0.5)*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}x.putImageData(d,0,0);return ed.noise=c}
@@ -1110,7 +1270,7 @@ function edRender(){if(!ed.prev)return;const W=ed.prev.width,H=ed.prev.height;if
   x.drawImage(edRenderTo(ed.prev,ed.maskP,W,H,ed.set),0,0)}
 let edRaf=false;function edRenderSoon(){if(edRaf)return;edRaf=true;requestAnimationFrame(()=>{edRaf=false;edRender()})}
 $('#ed-dl').onclick=async()=>{if(!ed.src)return;status('ed','Preparing full-size photo…');await new Promise(r=>setTimeout(r,30));
-  const c=edRenderTo(ed.src,ed.mask,ed.src.width,ed.src.height,ed.set);status('ed','');save(ed.name+'-edited.jpg',await canvasBlob(c,'image/jpeg',0.94))};
+  const c=edRenderTo(ed.src,ed.mask,ed.src.width,ed.src.height,ed.set);status('ed','');save(ed.name+'-updated.jpg',await canvasBlob(c,'image/jpeg',0.94))};
 
 /* describe the look → Claude picks settings */
 let edSample=null;
@@ -1149,7 +1309,7 @@ Example: {"exposure":8,"contrast":15,"saturation":-5,"warmth":10,"tint":0,"fade"
 
 /* ---------- CROP ---------- */
 let cropper=null,cropName='photo',cropAngle=0,cropRot=0,sX=1,sY=1;
-$('#crop-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+async function cropLoad(f){
   if(!f.type.startsWith('image/')&&!/\.(jpe?g|png|webp|gif|bmp|heic)$/i.test(f.name)){status('crop','Please choose an image file.','err');return}
   status('crop','Loading…');
   try{await loadScript(CDN.cropper);}catch(err){status('crop',err.message,'err');return}
@@ -1160,7 +1320,8 @@ $('#crop-file').addEventListener('change',async e=>{const f=pick(e.target);if(!f
     cropper=new Cropper(img,{viewMode:1,autoCropArea:0.9,background:false,responsive:true,crop(ev){$('#crop-meta').textContent=`Crop size: ${Math.round(ev.detail.width)} × ${Math.round(ev.detail.height)} px`}});
     const r=+segVal('crop-ratio');cropper.setAspectRatio(r)};
   img.onerror=()=>status('crop','That image format isn’t supported by your browser. Try a JPG or PNG.','err');
-  img.src=URL.createObjectURL(f);});
+  img.src=URL.createObjectURL(f);}
+['crop-file','crop-file2'].forEach(id=>$('#'+id).addEventListener('change',e=>{const f=pick(e.target);if(f)cropLoad(f)}));
 segInit('crop-ratio',v=>cropper&&cropper.setAspectRatio(+v));
 segInit('crop-fmt');
 const applyRot=()=>cropper&&cropper.rotateTo(cropRot+cropAngle);
@@ -1171,7 +1332,7 @@ $('#crop-reset').onclick=()=>{if(!cropper)return;cropper.reset();cropRot=0;cropA
 $('#crop-go').onclick=async()=>{if(!cropper)return;const fmt=segVal('crop-fmt');
   const c=cropper.getCroppedCanvas({fillColor:fmt==='jpg'?'#fff':'transparent',imageSmoothingQuality:'high',maxWidth:8000,maxHeight:8000});
   if(!c){toast('Couldn’t crop that image.');return}
-  save(cropName+'-cropped.'+fmt,await canvasBlob(c,fmt==='jpg'?'image/jpeg':'image/png',0.94))};
+  save(cropName+'-updated.'+fmt,await canvasBlob(c,fmt==='jpg'?'image/jpeg':'image/png',0.94))};
 
 /* ---------- EDIT METADATA ---------- */
 const mt={file:null,kind:null,buf:null,fields:[],cur:{},mode:'edit'};
@@ -1300,7 +1461,7 @@ $('#mt-go').addEventListener('click',async()=>{
     if(mt.kind==='jpg')await mtPiexif();
     const blob=mt.kind==='pdf'?await mtSavePdf(vals):mt.kind==='png'?mtSavePng(vals):await mtSaveJpg(vals);
     const ext=mt.kind==='pdf'?'pdf':mt.kind==='png'?'png':'jpg';
-    const ok=await save(baseName(mt.file.name)+'-meta.'+ext,blob);
+    const ok=await save(baseName(mt.file.name)+'-updated.'+ext,blob);
     status('mt',ok?'Saved. Open the new file to check the details.':'File ready.','ok');
   }catch(err){status('mt','Couldn’t save: '+err.message,'err')}
   btn.disabled=false;
@@ -1331,7 +1492,7 @@ $('#cp-go').addEventListener('click',async()=>{
   try{
     const {blob,note}=cp.kind==='pdf'?await cpPdf(target):await cpImg(target);
     $('#cp-after').textContent='→ New: '+fmtSize(blob.size);
-    const ext=cp.kind==='pdf'?'pdf':'jpg';const ok=await save(baseName(cp.file.name)+'-compressed.'+ext,blob);
+    const ext=cp.kind==='pdf'?'pdf':'jpg';const ok=await save(baseName(cp.file.name)+'-updated.'+ext,blob);
     status('cp',(ok?'Done. ':'')+note,blob.size<=target?'ok':'');
   }catch(err){status('cp','Couldn’t compress: '+err.message,'err')}
   btn.disabled=false;
@@ -1374,6 +1535,113 @@ async function cpPdf(target){
   const blob=build(cans,0.25);
   return {blob,note:blob.size<=target?'Fits under target.':'Couldn’t reach that size for this PDF; smallest is '+fmtSize(blob.size)+'. Try a larger target.'};
 }
+
+/* ---------- OBJECTS: ADD & REMOVE ---------- */
+const rt={src:null,W:0,H:0,base:null,ovl:null,mask:null,mode:'remove',tool:'heal',brush:30,painting:false,snap:null,off:null,cloneSrc:null,setSrc:false,objects:[],sel:-1,drag:null,undo:[]};
+const rc=$('#rt-canvas'),rx=rc.getContext('2d');
+function rtProg(msg){status('rt',msg===null?'':msg)}
+async function rtLoad(f){
+  try{status('rt','Loading…');rt.name=baseName(f.name);const im=await loadImageFile(f,1500);rt.W=im.width;rt.H=im.height;
+    rt.base=document.createElement('canvas');rt.base.width=rt.W;rt.base.height=rt.H;rt.base.getContext('2d').drawImage(im,0,0);
+    rt.ovl=document.createElement('canvas');rt.ovl.width=rt.W;rt.ovl.height=rt.H;
+    rt.mask=new Uint8Array(rt.W*rt.H);rt.objects=[];rt.sel=-1;rt.undo=[];rt.cloneSrc=null;
+    $('#rt-editor').classList.remove('hidden');$('[data-drop=rt]').classList.add('hidden');status('rt','');
+    rc.width=rt.W;rc.height=rt.H;rtRender();rtHint();
+  }catch(err){status('rt',err.message,'err')}
+}
+$('#rt-file').addEventListener('change',e=>{const f=pick(e.target);if(f)rtLoad(f)});
+$('#rt-file2').addEventListener('change',e=>{const f=pick(e.target);if(f)rtLoad(f)});
+function rtHint(){$('#rt-hint').textContent=rt.mode==='add'?'Add an image, then tap it and drag to move; use the sliders to size and rotate.':rt.tool==='clone'?'Set a clone source, then paint to copy from it over what you want gone.':'Paint over a small object to erase it. Smaller strokes work best.'}
+segInit('rt-mode',v=>{rt.mode=v;$('#rt-remove-ctrls').classList.toggle('hidden',v!=='remove');$('#rt-add-ctrls').classList.toggle('hidden',v!=='add');if(v!=='add')rt.sel=-1;rtRender();rtHint()});
+segInit('rt-tool',v=>{rt.tool=v;$('#rt-clone-box').classList.toggle('hidden',v!=='clone');rtHint()});
+$('#rt-brush').oninput=e=>{rt.brush=+e.target.value;$('#rt-brush-v').textContent=e.target.value};
+$('#rt-setsrc').onclick=()=>{rt.setSrc=true;toast('Tap the photo to set the clone source')};
+$('#rt-undo').onclick=()=>{if(!rt.undo.length)return;const c=rt.undo.pop();rt.base.getContext('2d').putImageData(c,0,0);rtRender()};
+$('#rt-reset').onclick=()=>{if(!rt.src&&!rt.base)return;rtLoadReset()};
+function rtLoadReset(){/*reload original from base history start not kept; re-draw from first undo if any*/ if(rt.undo.length){rt.base.getContext('2d').putImageData(rt.undo[0],0,0);rt.undo=[];rtRender()}}
+function pushUndoRt(){rt.undo.push(rt.base.getContext('2d').getImageData(0,0,rt.W,rt.H));if(rt.undo.length>12)rt.undo.shift()}
+
+function rtRender(){
+  if(!rt.base)return;rx.setTransform(1,0,0,1,0,0);rx.clearRect(0,0,rt.W,rt.H);rx.drawImage(rt.base,0,0);
+  rt.objects.forEach((o,i)=>{rx.save();rx.translate(o.x,o.y);rx.rotate(o.rot);rx.scale(o.scale*(o.flip?-1:1),o.scale);rx.drawImage(o.img,-o.img.width/2,-o.img.height/2);rx.restore();
+    if(i===rt.sel&&rt.mode==='add'){rx.save();rx.translate(o.x,o.y);rx.rotate(o.rot);rx.strokeStyle='#3b5bfd';rx.lineWidth=2/1;rx.setLineDash([8,6]);const w=o.img.width*o.scale,h=o.img.height*o.scale;rx.strokeRect(-w/2,-h/2,w,h);rx.restore()}});
+  if(rt.mode==='remove')rx.drawImage(rt.ovl,0,0);
+}
+/* ---- remove: heal fill ---- */
+function rtHeal(){
+  const W=rt.W,H=rt.H,ctx=rt.base.getContext('2d'),img=ctx.getImageData(0,0,W,H),d=img.data,mask=rt.mask;
+  const known=new Uint8Array(W*H);let remaining=0;
+  for(let p=0;p<W*H;p++){known[p]=mask[p]?0:1;if(mask[p])remaining++}
+  if(!remaining)return;
+  let guard=0;
+  while(remaining>0&&guard++<4000){
+    const front=[];
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++){const p=y*W+x;if(known[p])continue;let r=0,g=0,b=0,n=0;
+      if(x>0&&known[p-1]){const q=(p-1)*4;r+=d[q];g+=d[q+1];b+=d[q+2];n++}
+      if(x<W-1&&known[p+1]){const q=(p+1)*4;r+=d[q];g+=d[q+1];b+=d[q+2];n++}
+      if(y>0&&known[p-W]){const q=(p-W)*4;r+=d[q];g+=d[q+1];b+=d[q+2];n++}
+      if(y<H-1&&known[p+W]){const q=(p+W)*4;r+=d[q];g+=d[q+1];b+=d[q+2];n++}
+      if(n)front.push(p,r/n,g/n,b/n)}
+    if(!front.length)break;
+    for(let i=0;i<front.length;i+=4){const p=front[i],o=p*4;d[o]=front[i+1];d[o+1]=front[i+2];d[o+2]=front[i+3];known[p]=1;remaining--}
+  }
+  for(let it=0;it<10;it++){const copy=d.slice();
+    for(let p=0;p<W*H;p++){if(!mask[p])continue;const x=p%W,y=(p/W)|0;let r=0,g=0,b=0,n=0;
+      if(x>0){const q=(p-1)*4;r+=copy[q];g+=copy[q+1];b+=copy[q+2];n++}
+      if(x<W-1){const q=(p+1)*4;r+=copy[q];g+=copy[q+1];b+=copy[q+2];n++}
+      if(y>0){const q=(p-W)*4;r+=copy[q];g+=copy[q+1];b+=copy[q+2];n++}
+      if(y<H-1){const q=(p+W)*4;r+=copy[q];g+=copy[q+1];b+=copy[q+2];n++}
+      const o=p*4;d[o]=r/n;d[o+1]=g/n;d[o+2]=b/n}}
+  ctx.putImageData(img,0,0);rt.mask.fill(0);rt.ovl.getContext('2d').clearRect(0,0,W,H);
+}
+function rtDab(x,y){const r=rt.brush/2;
+  if(rt.tool==='heal'){const ox=rt.ovl.getContext('2d');ox.fillStyle='rgba(59,91,253,.4)';ox.beginPath();ox.arc(x,y,r,0,7);ox.fill();
+    const x0=Math.max(0,x-r|0),x1=Math.min(rt.W,x+r|0),y0=Math.max(0,y-r|0),y1=Math.min(rt.H,y+r|0);
+    for(let yy=y0;yy<y1;yy++)for(let xx=x0;xx<x1;xx++)if((xx-x)*(xx-x)+(yy-y)*(yy-y)<=r*r)rt.mask[yy*rt.W+xx]=1;
+  } else { // clone
+    const ctx=rt.base.getContext('2d');ctx.save();ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.clip();
+    ctx.drawImage(rt.snap,rt.off[0],rt.off[1]); // copy from source: snap(p-off) lands at p
+    ctx.restore();
+  }
+}
+rc.addEventListener('pointerdown',e=>{if(!rt.base)return;const p=canvasPt(rc,e);
+  if(rt.mode==='add'){rtPickObject(p,e);return}
+  if(rt.setSrc){rt.cloneSrc=[p[0],p[1]];rt.setSrc=false;$('#rt-src-note').textContent='source set';toast('Clone source set');return}
+  if(rt.tool==='clone'){if(!rt.cloneSrc){toast('Set a clone source first');return}rt.snap=document.createElement('canvas');rt.snap.width=rt.W;rt.snap.height=rt.H;rt.snap.getContext('2d').drawImage(rt.base,0,0);rt.off=[p[0]-rt.cloneSrc[0],p[1]-rt.cloneSrc[1]]}
+  pushUndoRt();rt.painting=true;rc.setPointerCapture(e.pointerId);rt.last=p;rtDab(p[0],p[1]);rtRender();
+});
+rc.addEventListener('pointermove',e=>{if(!rt.base)return;const p=canvasPt(rc,e);
+  if(rt.drag){const o=rt.objects[rt.sel];o.x=p[0]-rt.drag[0];o.y=p[1]-rt.drag[1];rtRender();return}
+  if(!rt.painting)return;const steps=Math.ceil(Math.hypot(p[0]-rt.last[0],p[1]-rt.last[1])/(rt.brush/3))||1;
+  for(let i=1;i<=steps;i++)rtDab(rt.last[0]+(p[0]-rt.last[0])*i/steps,rt.last[1]+(p[1]-rt.last[1])*i/steps);rt.last=p;rtRender();
+});
+function rtEnd(){if(rt.drag){rt.drag=null;return}if(rt.painting){rt.painting=false;if(rt.tool==='heal'){status('rt','Healing…');setTimeout(()=>{rtHeal();rtRender();status('rt','')},20)}}}
+rc.addEventListener('pointerup',rtEnd);rc.addEventListener('pointercancel',rtEnd);
+/* ---- add objects ---- */
+function rtPickObject(p,e){
+  for(let i=rt.objects.length-1;i>=0;i--){const o=rt.objects[i];let dx=p[0]-o.x,dy=p[1]-o.y;const c=Math.cos(-o.rot),s=Math.sin(-o.rot);
+    const lx=(dx*c-dy*s)/o.scale,ly=(dx*s+dy*c)/o.scale;
+    if(Math.abs(lx)<=o.img.width/2&&Math.abs(ly)<=o.img.height/2){rt.sel=i;rt.drag=[p[0]-o.x,p[1]-o.y];rtSyncObj();rc.setPointerCapture(e.pointerId);rtRender();return}}
+  rt.sel=-1;rtSyncObj();rtRender();
+}
+function rtSyncObj(){const has=rt.sel>=0;$('#rt-obj-ctrls').classList.toggle('hidden',!has);if(has){const o=rt.objects[rt.sel];$('#rt-oscale').value=Math.round(o.scale*100);$('#rt-orot').value=Math.round(o.rot*180/Math.PI)}}
+$('#rt-oscale').oninput=e=>{if(rt.sel<0)return;rt.objects[rt.sel].scale=+e.target.value/100;rtRender()};
+$('#rt-orot').oninput=e=>{if(rt.sel<0)return;rt.objects[rt.sel].rot=+e.target.value*Math.PI/180;rtRender()};
+$('#rt-oflip').onclick=()=>{if(rt.sel<0)return;rt.objects[rt.sel].flip=!rt.objects[rt.sel].flip;rtRender()};
+$('#rt-ofront').onclick=()=>{if(rt.sel<0)return;const o=rt.objects.splice(rt.sel,1)[0];rt.objects.push(o);rt.sel=rt.objects.length-1;rtRender()};
+$('#rt-odel').onclick=()=>{if(rt.sel<0)return;rt.objects.splice(rt.sel,1);rt.sel=-1;rtSyncObj();rtRender()};
+$('#rt-add').addEventListener('change',async e=>{const f=pick(e.target);if(!f)return;
+  try{status('rt','Loading image…');let img=await loadImageFile(f,1400);
+    if($('#rt-add-cut').checked){const mk=await aiMaskCanvas(img,rtProg);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');x.drawImage(img,0,0);x.globalCompositeOperation='destination-in';x.drawImage(mk,0,0,c.width,c.height);img=c}
+    const fit=Math.min(1,(Math.min(rt.W,rt.H)*0.5)/Math.max(img.width,img.height));
+    rt.objects.push({img,x:rt.W/2,y:rt.H/2,scale:fit,rot:0,flip:false});rt.sel=rt.objects.length-1;rtSyncObj();status('rt','');rtRender();
+  }catch(err){status('rt','Couldn’t add that image: '+err.message,'err')}e.target.value=''});
+/* ---- export ---- */
+function rtFlatten(opaque){const c=document.createElement('canvas');c.width=rt.W;c.height=rt.H;const x=c.getContext('2d');
+  if(opaque){x.fillStyle='#fff';x.fillRect(0,0,rt.W,rt.H)}x.drawImage(rt.base,0,0);
+  rt.objects.forEach(o=>{x.save();x.translate(o.x,o.y);x.rotate(o.rot);x.scale(o.scale*(o.flip?-1:1),o.scale);x.drawImage(o.img,-o.img.width/2,-o.img.height/2);x.restore()});return c}
+$('#rt-png').onclick=async()=>{if(!rt.base)return;save((rt.name||'photo')+'-updated.png',await canvasBlob(rtFlatten(false),'image/png',0.95))};
+$('#rt-jpg').onclick=async()=>{if(!rt.base)return;save((rt.name||'photo')+'-updated.jpg',await canvasBlob(rtFlatten(true),'image/jpeg',0.94))};
 
 showTab();
 if('serviceWorker' in navigator && location.protocol==='https:' || location.hostname==='localhost'){

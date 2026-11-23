@@ -1,6 +1,6 @@
 # DocTools
 
-Offline web app: **Convert** (Word <-> PDF), **Photos** (auto-detecting scanner, passport photo, editor, crop), **Edit metadata** and **Compress** (shrink a photo or PDF to a target size). Everything runs on the device. Install on iPhone from Safari: **Share -> Add to Home Screen**.
+Offline web app. Tabs: **Convert** (Word <-> PDF), **Photos** (edge-detecting scanner, passport photos, editor, crop, add/remove objects), **Edit metadata**, **Compress**. Everything runs on the device. Saved files keep your original filename with "-updated" added. Install on iPhone from Safari: **Share -> Add to Home Screen**.
 
 ## Put it on GitHub Pages
 1. On github.com click **New repository**, name it `doctools`, set **Public**, create it.

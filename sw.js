@@ -1,5 +1,5 @@
 // DocTools offline cache
-const VERSION = 'doctools-v12';
+const VERSION = 'doctools-v19';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest',
   'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png',
